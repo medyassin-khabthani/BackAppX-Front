@@ -3,7 +3,42 @@ import React, {Component} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-class Login extends Component {
+class Signup extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      name:"",
+      email:"",
+      password:"",
+      phoneNumber:"12345678"
+    }
+    this.handleSubmit=this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    const {name,email,password,phoneNumber}=this.state;
+    console.log(name,email,password,phoneNumber);
+    fetch("http://127.0.0.1:9092/user/register",{
+      method:"POST",
+      crossDomain:true,
+      headers:{
+        "Content-Type":"application/json",
+        Accept:"application/json",
+        "Access-Control-Allow-Origin":"*",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        phoneNumber
+      }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data,"userRegister")
+    })
+  }
     render() {
         return (
             <div className="row" style={{height: '100vh'}}>
@@ -78,9 +113,13 @@ class Login extends Component {
             </div>
             <div className="col login-col">
               <div>
-                <form className="login-form" style={{paddingRight: '100px', paddingLeft: '100px'}}>
-                  <h1 style={{marginBottom: '20px'}}>Signup</h1><input className="form-control" type="text" placeholder="Username" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} /><input className="form-control" type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} /><input className="form-control" type="password" placeholder="password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} /><input className="form-control" type="password" placeholder="Confirm password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
-                  <div className="form-buttons"><button className="btn btn-primary login-button" type="button" style={{paddingRight: '80px', paddingLeft: '80px', borderRadius: '15px', boxShadow: '0px 0px 5px 0px #1c7ba5', background: '#1c7ba5', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px', marginRight: 'auto'}}>S'inscrire</button></div>
+                <form className="login-form" onSubmit={this.handleSubmit} style={{paddingRight: '100px', paddingLeft: '100px'}}>
+                  <h1 style={{marginBottom: '20px'}}>Signup</h1>
+                  <input className="form-control" onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Username" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} />
+                  <input className="form-control" onChange={(e)=> this.setState({email:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} />
+                  <input className="form-control" onChange={(e)=> this.setState({password:e.target.value})} type="password" placeholder="password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
+                  <input className="form-control" type="password" placeholder="Confirm password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
+                  <div className="form-buttons"><button className="btn btn-primary login-button" type="submit" style={{paddingRight: '80px', paddingLeft: '80px', borderRadius: '15px', boxShadow: '0px 0px 5px 0px #1c7ba5', background: '#1c7ba5', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px', marginRight: 'auto'}}>S'inscrire</button></div>
                   <div><a className="text-center login-text" href="login" style={{display: 'block', fontSize: '22px', color: '#212529', marginTop: '10px'}}>Login</a></div>
                   <hr style={{height: '0.5px', marginTop: '30px'}} />
                   <h1 style={{fontSize: '18px', textAlign: 'center'}}>connect with Social media</h1>
@@ -97,4 +136,4 @@ class Login extends Component {
         )
     }
 }
-export default Login;
+export default Signup;
