@@ -32,11 +32,11 @@ class Login extends Component {
     })
     .then((res) => res.json())
     .then((data) => {
-      const email=data.email;
       console.log(data,"userRegister")
       if(data?.status == "ok"){
-        alert("login successful !");
-        window.localStorage.setItem("id",data?.id);
+        alert("Login Successful !");
+        window.localStorage.setItem("token",data?.token);
+        window.localStorage.setItem("isLoggedIn",true)
         window.location.href="./";
       }
     })
