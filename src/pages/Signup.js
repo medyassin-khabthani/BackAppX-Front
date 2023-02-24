@@ -10,7 +10,7 @@ class Signup extends Component {
       name:"",
       email:"",
       password:"",
-      phoneNumber:"12345678"
+      phoneNumber:""
     }
     this.handleSubmit=this.handleSubmit.bind(this);
   }
@@ -19,8 +19,8 @@ class Signup extends Component {
     e.preventDefault();
     const {name,email,password,phoneNumber}=this.state;
     console.log(name,email,password,phoneNumber);
-
-    if (this.ValidateEmail(email)){
+/* 
+    if (this.ValidateEmail(email)){ */
       fetch("http://127.0.0.1:9092/user/register",{
         method:"POST",
         crossDomain:true,
@@ -46,11 +46,11 @@ class Signup extends Component {
         
   
       })
-    }
+/*     } */
 
   }
 
-  ValidateEmail(input) {
+/*   ValidateEmail(input) {
 
     var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
@@ -68,9 +68,9 @@ class Signup extends Component {
   
       return false;
   
-    }
+    } 
   
-  }
+  }*/
     render() {
         return (
             <div className="row" style={{height: '100vh'}}>
@@ -149,7 +149,7 @@ class Signup extends Component {
                   <h1 style={{marginBottom: '20px'}}>Signup</h1>
                   <input className="form-control" onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Username" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
                   <input className="form-control" onChange={(e)=> this.setState({email:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required />
-                  <input className="form-control" onChange={(e)=> this.setState({email:e.target.value})} type="tel" placeholder="Numéro de téléphone" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
+                  <input className="form-control" onChange={(e)=> this.setState({phoneNumber:e.target.value})} type="tel" placeholder="Numéro de téléphone" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
                   <input className="form-control" onChange={(e)=> this.setState({password:e.target.value})} type="password" placeholder="password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} required />
                   <input className="form-control" type="password" placeholder="Confirm password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
                   <div className="form-buttons">

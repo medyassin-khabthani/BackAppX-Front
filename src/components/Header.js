@@ -71,7 +71,7 @@ class Header extends Component{
                                 Welcome {userData.name}
                               </a>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a className="dropdown-item" href="#">Modifier mon profil</a>
+                                <a className="dropdown-item" href="edit-profile">Modifier mon profil</a>
                                 <a className="dropdown-item" onClick={this.disconnect} href="#">Se deconnecter</a>
                               </div>
                             </div>
