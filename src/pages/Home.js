@@ -4,18 +4,50 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      token:"",
+      userData:"",
+    }
+  }
+  componentDidMount(){
+
+
+    fetch("http://127.0.0.1:9092/user/userData",{
+      method:"POST",
+      crossDomain:true,
+      headers:{
+        "Content-Type":"application/json",
+        Accept:"application/json",
+        "Access-Control-Allow-Origin":"*",
+      },
+      body: JSON.stringify({
+        token:window.localStorage.getItem("token")
+      }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        
+        this.setState({token:window.localStorage.getItem("token"),userData:data?.data});
+        console.log(this.state)
+      })
+    }
+  
+
     render() {
         return (
             <div className="wrapper">
             <Header />
             <section>
           {/* Start: Parallax Background */}
-          <div data-bss-parallax-bg="true" style={{height: '600px', background: 'url("assets/img/Groupe%2022.png") center / cover no-repeat'}}>
-            <div className="row h-100">
+          <div data-bss-parallax-bg="true" style={{height: '600px', background: 'url("assets/img/Groupe%2022.png") center / cover no-repeat',marginRight:"0px",marginLeft:"0px"}}>
+            <div className="row h-100" style={{marginRight:"0px",marginLeft:"0px"}}>
               <div className="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
                 <div>
                   <h2 className="text-uppercase fw-bold text-light mb-3">Biben dum<br />fringi dictum, augue purus</h2>
-                  <p className="text-light mb-4">Etiam a rutrum, mauris lectus aptent convallis. Fusce vulputate aliquam, sagittis odio metus. Nulla porttitor vivamus viverra laoreet, aliquam netus.</p><button className="btn btn-primary fs-5 border-primary me-2 py-2 px-4" type="button" style={{borderRadius: 0, borderTopLeftRadius: '16px', borderBottomRightRadius: '16px', background: '#F15C57'}}>Start Building</button>
+                  <p className="text-light mb-4">Etiam a rutrum, mauris lectus aptent convallis. Fusce vulputate aliquam, sagittis odio metus. Nulla porttitor vivamus viverra laoreet, aliquam netus.</p>
+                  <a className="nav-link" href='project'><button className="btn btn-primary fs-5 border-primary me-2 py-2 px-4" type="button" style={{borderRadius: 0, borderTopLeftRadius: '16px', borderBottomRightRadius: '16px', background: '#F15C57'}}>Start Building</button></a>
                 </div>
               </div>
             </div>
