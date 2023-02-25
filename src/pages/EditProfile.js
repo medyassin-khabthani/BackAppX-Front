@@ -11,10 +11,13 @@ class EditProfile extends Component {
       name:"",
       email:"",
       phoneNumber:"",
+      image:null,
       userData:"",
     }
     this.handleUpdate=this.handleUpdate.bind(this);
     this.deleteAccount=this.deleteAccount.bind(this);
+    this.handleUpload=this.handleUpload.bind(this);
+
 
   }
   componentDidMount(){
@@ -104,6 +107,27 @@ class EditProfile extends Component {
       }
     })
   }
+  handleUpload(e){
+    e.preventDefault();
+    const{image,id}= this.state;
+    
+    const formData = new FormData();
+    formData.append('image', image);
+    
+    fetch(`http://127.0.0.1:9092/user/uploadphoto/${id}`, {
+      method: 'PUT',
+      body: formData
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data?.status == "ok"){
+        alert('upload image successful !');
+        console.log(data?.file)
+      }
+    });
+
+
+  }
 
     render() {
       const {name,phoneNumber,email} = this.state;
@@ -116,14 +140,18 @@ class EditProfile extends Component {
                 <div className="alert alert-info alert-dismissible absolue center" role="alert"><button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" /><span>Profile save with success</span></div>
               </div>
             </div> 
-            <form onSubmit={this.handleUpdate}> 
+
               <div className="row profile-row">
                 <div className="col-md-4 relative">
+                  <form onSubmit={this.handleUpload}>
                   <div className="avatar">
                     <div className="avatar-bg center" />
-                  </div><input className="form-control form-control" type="file" name="avatar-file" />
+                  </div><input className="form-control form-control" type="file" onChange={(e)=> this.setState({image:e.target.files[0]})} name="avatar-file" />
+                  <button className='btn btn-primary' type="submit">upload picture</button>
+                  </form>
                 </div>
                 <div className="col-md-8">
+                <form onSubmit={this.handleUpdate}> 
                   <h1>Modifier mon profil</h1>
                   <hr />
                   <div className="row">
@@ -146,13 +174,14 @@ class EditProfile extends Component {
                   <div className="row">
                     <div className="col-md-12 content-right"><button className="btn btn-primary form-btn" type="submit" style={{background: '#1c7ba5', boxShadow: '0px 0px 7px #1c7ba5', border:"none"}}>Confirmer</button><button className="btn form-btn btn-secondary text-secondary" type="reset" style={{background: 'rgba(220,53,69,0)'}}>Annuler</button></div>
                   </div>
+                  </form>
+
                 </div>
                 <hr className='mt-4'/>
                 <div className="col">
                   <p>Lorem ipsum det alore ist.</p><button className="btn btn-primary" onClick={this.deleteAccount} type="button" style={{width: '200px', background: '#f05b57', boxShadow: '0px 0px 4px #f05b57',border:"none"}}>Delete my account</button>
                 </div>
               </div>
-            </form>
           </div>
           <Footer/>
           </div>
