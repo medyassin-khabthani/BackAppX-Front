@@ -36,7 +36,11 @@ class EditProfile extends Component {
       this.setState({
       token:window.localStorage.getItem("token"),
       userData:data?.data,
-      id:data?.data._id
+      id:data?.data._id,
+      name:data?.data.name,
+      phoneNumber:data?.data.phoneNumber,
+      email:data?.data.email
+
     });
       console.log("data:", data)
     })
@@ -49,6 +53,7 @@ class EditProfile extends Component {
     const {id,name,email,phoneNumber}=this.state;
     
     console.log(id,name,email,phoneNumber);
+
     fetch(`http://127.0.0.1:9092/user/profile/${id}`,{
       method:"PUT",
       crossDomain:true,
@@ -69,12 +74,15 @@ class EditProfile extends Component {
       if (data?.status == "updated"){
         this.setState({userData:data.user})
         alert('update successful !');
-/*         window.location.href="./login"
- */      }
+        window.location.href="./edit-profile"
+       }
       
 
     })
   }
+
+
+
   deleteAccount(){
     const { id }=this.state;
 
@@ -98,7 +106,7 @@ class EditProfile extends Component {
   }
 
     render() {
-      const { userData } = this.state; 
+      const {name,phoneNumber,email} = this.state;
         return (
             <div>
             <Header/>
@@ -107,8 +115,8 @@ class EditProfile extends Component {
               <div className="col-md-12 alert-col relative">
                 <div className="alert alert-info alert-dismissible absolue center" role="alert"><button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" /><span>Profile save with success</span></div>
               </div>
-            </div>
-            <form onSubmit={this.handleUpdate}>
+            </div> 
+            <form onSubmit={this.handleUpdate}> 
               <div className="row profile-row">
                 <div className="col-md-4 relative">
                   <div className="avatar">
@@ -120,13 +128,13 @@ class EditProfile extends Component {
                   <hr />
                   <div className="row">
                     <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({name:e.target.value})} name="username" placeholder="Nom d'utilisateur"  /></div>
+                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({name:e.target.value})} name="username" placeholder="Nom d'utilisateur"  value={name} /></div>
                     </div>
                     <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({phoneNumber:e.target.value})} name="phone" placeholder="Numéro de téléphone"  /></div>
+                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({phoneNumber:e.target.value})} name="phone" placeholder="Numéro de téléphone" value={phoneNumber} /></div>
                     </div>
                   </div>
-                  <div className="form-group mb-3"><input className="form-control" type="email" onChange={(e)=> this.setState({email:e.target.value})} autoComplete="off"  name="email" placeholder="Email" /></div>
+                  <div className="form-group mb-3"><input className="form-control" type="email" onChange={(e)=> this.setState({email:e.target.value})} autoComplete="off"  name="email" placeholder="Email" value={email} /></div>
                   {/* <div className="row">
                     <div className="col-sm-12 col-md-6">
                       <div className="form-group mb-3"><input className="form-control" type="password" name="password" autoComplete="off" required placeholder="Mot de passe" /></div>
