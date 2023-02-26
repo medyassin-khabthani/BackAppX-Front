@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
 
 class Login extends Component {
     render() {
@@ -19,7 +22,7 @@ class Login extends Component {
                       <div className="card-body p-4" style={{width: '260px'}}>
                         <div className="d-flex justify-content-between">
                           <div>
-                            <h3 className="fw-bold mb-0">Student bundle</h3>
+                            <h3 className="fw-bold mb-0">Starter bundle</h3>
                             <p>Suscipit</p>
                             <h4 className="display-6 fw-bold">$0</h4>
                           </div>
@@ -36,7 +39,8 @@ class Login extends Component {
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                 </svg></span><span>Porta suscipit netus ad ac.</span></li>
                           </ul>
-                        </div><a className="btn btn-primary d-block w-100" role="button" href="#" style={{background: '#1c7ba5', borderWidth: '0px'}}>Choisir</a>
+                        </div>
+                        <div className="d-grid"><a className="btn btn-primary"   role="button">Get Started</a></div>
                       </div>
                     </div>
                   </div>
@@ -69,7 +73,8 @@ class Login extends Component {
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                 </svg></span><span>Nisl potenti ut auctor lobortis.</span></li>
                           </ul>
-                        </div><a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="#" style={{borderWidth: '0px'}}>Choisir</a>
+                        </div>
+                          <a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="/payment" style={{borderWidth: '0px'}}>Choisir</a>
                       </div>
                     </div>
                   </div>
