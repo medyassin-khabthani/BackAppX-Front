@@ -41,6 +41,10 @@ class Login extends Component {
         window.localStorage.setItem("token",data?.token);
         window.localStorage.setItem("isLoggedIn",true)
         window.location.href="./";
+      }else if(data?.status=="email not found"){
+        alert("l'utilisateur n'existe pas");
+      }else if(data?.status=="password not found"){
+        alert("le mot de passe ou l'email est incorrect");
       }
     })
   }

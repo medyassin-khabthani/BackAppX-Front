@@ -13,6 +13,9 @@ class EditProfile extends Component {
       phoneNumber:"",
       image:null,
       userData:"",
+      imageUrl:"",
+      buttonColor:"#1c7ba5",
+      buttonText:"Upload image"
     }
     this.handleUpdate=this.handleUpdate.bind(this);
     this.deleteAccount=this.deleteAccount.bind(this);
@@ -42,7 +45,8 @@ class EditProfile extends Component {
       id:data?.data._id,
       name:data?.data.name,
       phoneNumber:data?.data.phoneNumber,
-      email:data?.data.email
+      email:data?.data.email,
+      imageUrl:data?.data.image.url
 
     });
       console.log("data:", data)
@@ -107,10 +111,24 @@ class EditProfile extends Component {
       }
     })
   }
+
+   handleImageUpload = e => {
+    
+    this.setState({image:e.target.files[0]})
+
+    console.log(this.state.image)
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.setState({imageUrl:reader.result})
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   handleUpload(e){
     e.preventDefault();
     const{image,id}= this.state;
-    
     const formData = new FormData();
     formData.append('image', image);
     
@@ -123,14 +141,17 @@ class EditProfile extends Component {
       if (data?.status == "ok"){
         alert('upload image successful !');
         console.log(data?.file)
+        window.location.href="./edit-profile"
       }
     });
-
+    const handleClick = () => {
+      this.setState({buttonColor:'#176182',buttonText:'Veuillez patienter...'});
+    };
 
   }
 
     render() {
-      const {name,phoneNumber,email} = this.state;
+      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText} = this.state;
         return (
             <div>
             <Header/>
@@ -145,13 +166,14 @@ class EditProfile extends Component {
                 <div className="col-md-4 relative">
                   <form onSubmit={this.handleUpload}>
                   <div className="avatar">
-                    <div className="avatar-bg center" />
-                  </div><input className="form-control form-control" type="file" onChange={(e)=> this.setState({image:e.target.files[0]})} name="avatar-file" />
-                  <button className='btn btn-primary' type="submit">upload picture</button>
+                    <div className="center">  
+                    {imageUrl && <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                  </div><input className="form-control form-control" type="file" onChange={this.handleImageUpload} name="avatar-file" />
+                  <button className='btn btn-primary w-100 mt-3' style={{background: buttonColor, boxShadow: '0px 0px 7px #1c7ba5', border:"none"}} onClick={this.handleClick} type="submit">{buttonText}</button>
                   </form>
                 </div>
                 <div className="col-md-8">
-                <form onSubmit={this.handleUpdate}> 
+                <form onSubmit={this.handleUpdate} className="h-100"> 
                   <h1>Modifier mon profil</h1>
                   <hr />
                   <div className="row">
@@ -172,7 +194,7 @@ class EditProfile extends Component {
                     </div>
                   </div> */}
                   <div className="row">
-                    <div className="col-md-12 content-right"><button className="btn btn-primary form-btn" type="submit" style={{background: '#1c7ba5', boxShadow: '0px 0px 7px #1c7ba5', border:"none"}}>Confirmer</button><button className="btn form-btn btn-secondary text-secondary" type="reset" style={{background: 'rgba(220,53,69,0)'}}>Annuler</button></div>
+                    <div className="col-md-12 content-right "><button className="btn btn-primary form-btn" type="submit" style={{background: '#1c7ba5', boxShadow: '0px 0px 7px #1c7ba5', border:"none"}}>Confirmer</button><button className="btn form-btn btn-secondary text-secondary" type="reset" style={{background: 'rgba(220,53,69,0)'}}>Annuler</button></div>
                   </div>
                   </form>
 

@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import Project from './pages/Project';
 import EditProfile from './pages/EditProfile';
 import ResetPassword from './pages/ResetPassword';
+import Pricing from './pages/pricing'
 
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
@@ -25,6 +26,8 @@ function App() {
         <Route exact path="/project" element={isLoggedIn=="true"? <Project/>:<Login/>}/>
         <Route exact path="/edit-profile" element={isLoggedIn=="true"? <EditProfile/>:<Login/>}/>
         <Route exact path="/reset-password" element={isLoggedIn=="true"? <Home/>:<ResetPassword/>}/>
+        <Route exact path="/pricing" element={<Pricing/>}/>
+
       
 
 

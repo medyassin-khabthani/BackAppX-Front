@@ -9,13 +9,43 @@ class Project extends Component {
         this.state = {
             projects:[],
             name:"",
-            description:""
+            description:"",
+            id:"",
+
         }
         this.handleSubmit=this.handleSubmit.bind(this);
       }
+      
+      addToUser(id,ProjectId){
+        fetch(`http://127.0.0.1:9092/user/myProject/${id}`,{
+          method:"PUT",
+          crossDomain:true,
+          headers:{
+            "Content-Type":"application/json",
+            Accept:"application/json",
+            "Access-Control-Allow-Origin":"*",
+          },
+          body: JSON.stringify({
+            ProjectId
+          }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.user,"user updated")
+          if (data?.status == "ok"){
+            this.setState({userData:data.user})
+            alert('project Added !');
+            window.location.href="./project"
+           }
+          
+    
+        })
+
+      }
+
       handleSubmit(e){
         e.preventDefault();
-        const {name,description}=this.state;
+        const {id,name,description}=this.state;
         fetch("http://127.0.0.1:9092/project/project",{
           method:"POST",
           crossDomain:true,
@@ -32,23 +62,43 @@ class Project extends Component {
         .then((res) => res.json())
         .then((data) => {
             if(data?.status == "created")
-          console.log(data?.newProject,"Project Added")
-          alert('Project Added');
-          window.location.href="./project";
+          console.log(data?.newProject._id);
+          this.addToUser(id,data?.newProject._id)
+
 
         })
       }
 
-      reload(){
-      }
+
       componentDidMount(){
+
         fetch("http://127.0.0.1:9092/project/project")
         .then((res) => res.json())
         .then((data) => {
-            this.setState({projects:data});
-            console.log(this.state.projects)
+
           })
+
+          fetch("http://127.0.0.1:9092/user/userData",{
+            method:"POST",
+            crossDomain:true,
+            headers:{
+              "Content-Type":"application/json",
+              Accept:"application/json",
+              "Access-Control-Allow-Origin":"*",
+            },
+            body: JSON.stringify({
+              token:window.localStorage.getItem("token")
+            }),
+          })
+          .then((res) => res.json())
+          .then((data) => {
+              
+              this.setState({id:data?.data._id,projects:data?.data.myProject});
+              console.log(this.state)
+            })
         }
+
+
     render() {
         const { projects } = this.state;
 
@@ -66,7 +116,7 @@ class Project extends Component {
                 </div>
               </a></div>
           </div>
-          {projects.map((project) => (
+          {projects.reverse().map((project) => (
             <div key={project.id} className="col col-md-4 mb-3">
             <div className="card" style={{borderRadius: '20px'}}>
                 <a>
