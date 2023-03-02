@@ -111,7 +111,7 @@ class Project extends Component {
             <div className="card" style={{borderRadius: '20px'}}><a href="#myModal" data-bs-toggle="modal" style={{textDecoration: 'none'}}>
                 <div className="card-body d-flex align-items-center" style={{boxShadow: '0px 2px 20px rgba(33,37,41,0.52)', height: '220px', borderRadius: '20px'}}>
                   <div className="mx-auto"><i className="fa fa-plus text-center mx-auto" style={{fontSize: '60px', color: 'var(--bs-blue)', display: 'block'}} />
-                    <h4 className="mt-2">Ajouter un projet</h4>
+                    <h4 className="mt-2" style={{color:"#007bff"}}>Ajouter un projet</h4>
                   </div>
                 </div>
               </a></div>
@@ -151,12 +151,62 @@ class Project extends Component {
               <div className="modal-content">
                 <form onSubmit={this.handleSubmit}>
                 <div className="modal-header">
-                  <h4>Ajouter un projet</h4><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
+                  <h4 >Ajouter un projet</h4><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
                 </div>
                 <div className="modal-body">
                   <input className="form-control" onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Titre" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} />
-                  <textarea className="form-control" onChange={(e) => this.setState({description:e.target.value})} placeholder="Description" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} defaultValue={""} />
+                  <textarea className="form-control" onChange={(e) => this.setState({description:e.target.value})} placeholder="Description" style={{ paddingTop: '12px', paddingBottom: '12px'}} defaultValue={""} />
                 </div>
+                {/* color button */}
+                <h6 className='mx-4 mt-0'>Choisir une couleur</h6>
+                <div className='row px-5' >
+                <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+
+                <div className="form-check-label" htmlFor="flexRadioDefault1" style={{width:"50px",height:"20px",background:"#7BC46C",borderRadius:"5px",marginTop:"2px"}}/>
+
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault2" style={{width:"50px",height:"20px",background:"#F2DF21",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input"  type="radio" name="flexRadioDefault" id="flexRadioDefault3"  />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault3" style={{width:"50px",height:"20px",background:"#FBAE42",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4"  />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault4" style={{width:"50px",height:"20px",background:"#F07464",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              </div>
+              <div className='row my-3 px-5' >
+                <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+
+                <div className="form-check-label" htmlFor="flexRadioDefault1" style={{width:"50px",height:"20px",background:"#BD8FC1",borderRadius:"5px",marginTop:"2px"}}/>
+
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault2" style={{width:"50px",height:"20px",background:"#59A4D0",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input"  type="radio" name="flexRadioDefault" id="flexRadioDefault3"  />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault3" style={{width:"50px",height:"20px",background:"#ED91BD",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              <div className="form-check col-3">
+                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4"  />
+
+              <div className="form-check-label" htmlFor="flexRadioDefault4" style={{width:"50px",height:"20px",background:"#40C4DE",borderRadius:"5px",marginTop:"2px"}}/>
+              </div>
+              </div>
+                {/* color button */}
+
                 <div className="modal-footer">
                 <button className="btn btn-light" type="button" data-bs-dismiss="modal">Annuler</button>
                 <button className="btn btn-primary" type="submit">Soumettre</button>

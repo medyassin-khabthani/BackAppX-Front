@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 
+import { NavLink } from "react-router-dom";
+
 
 class Header extends Component{
   constructor(props){
@@ -50,8 +52,16 @@ class Header extends Component{
             <div className="container"><button data-bs-toggle="collapse" className="navbar-toggler" data-bs-target="#navcol-2"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon" /></button>
               <div className="collapse navbar-collapse" id="navcol-2">
                 <ul className="navbar-nav me-auto">
+{/*                 <li className="nav-item">
+                <NavLink className="nav-link"
+                    to="pricing"
+                    style={({ isActive }) => ({
+                      color: isActive ? '#fff' : '#545e6f',
+                      background: isActive ? '#7600dc' : '#f0f0f0',
+                    })}
+                  > test</NavLink> </li> */}
                   <li className="nav-item"><a className="nav-link active" href="/">Home</a></li>
-                  <li className="nav-item"><a className="nav-link" href="#">Services</a></li>
+                  <li className="nav-item"><a className="nav-link" href="services">Services</a></li>
                   <li className="nav-item"><a className="nav-link" href="pricing">Pricing</a></li>
                   <li className="nav-item"><a className="nav-link" href="#">Docs</a></li>
                 </ul>

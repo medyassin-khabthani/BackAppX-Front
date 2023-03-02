@@ -14,7 +14,7 @@ class Pricing extends Component {
             <div className="wrapper">
             <Header />
 <section id="pricing-section" style={{background: "url('assets/img/picingbg.jpg')",padding:'20px'}}>
-        <h1 className="pricing headline text-center" style={{fontFamily: 'Roboto, sans-serif',marginTop:'0px'}}>Pricing Plans for Everyone</h1>
+        <h1 className="pricing headline text-center" style={{fontFamily: 'Roboto, sans-serif',marginTop:'0px'}}>Passer au premium en un clic</h1>
         <h3 className="pricing-sub-headline text-center">Get your website kicked off with a beautiful design with functionality!</h3>
         <div className="container py-4 py-xl-5">
           <div className="row gy-4 gx-md-0 gy-md-0 row-cols-1 row-cols-md-2 row-cols-xl-3 d-md-flex d-xl-flex align-items-md-center">
