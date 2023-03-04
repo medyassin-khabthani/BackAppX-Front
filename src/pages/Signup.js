@@ -44,6 +44,8 @@ class Signup extends Component {
         if (data?.status == "created"){
           alert('Signup successful !');
           window.location.href="./login"
+        } else if(data?.status == "failed"){
+          alert("utilisateur existant");
         }
         
   
