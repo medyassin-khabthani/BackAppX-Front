@@ -11,6 +11,8 @@ import Project from './pages/Project';
 import EditProfile from './pages/EditProfile';
 
 
+
+
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
 
@@ -26,7 +28,6 @@ function App() {
         <Route exact path="/project" element={isLoggedIn=="true"? <Project/>:<Login/>}/>
         <Route exact path="/edit-profile" element={isLoggedIn=="true"? <EditProfile/>:<Login/>}/>
         <Route exact path="/payment" element={<PaymentPage/>}/>
-        <Route exact path="/payment/success" element={<h1>Payment Success</h1>}/>
         <Route path="*" element={<h1>404: Not Found</h1>}/>
 
       </Routes>

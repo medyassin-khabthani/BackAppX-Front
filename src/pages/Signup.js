@@ -75,6 +75,7 @@ class Signup extends Component {
   }*/
     render() {
         return (
+
             <div className="row" style={{height: '100vh'}}>
             <div style={{position:'absolute',marginTop:'20px'}}>
             <a href="/"  style={{marginLeft:'1rem',borderRadius: '100%' , backgroundColor: '#f1f1f1',color: '#212529',  textDecoration: 'none',display: 'inline-block',padding: '8px 16px',fontSize:'20px', fontWeight:'bold'}}><i className="fa fa-arrow-left"/></a>
@@ -117,7 +118,7 @@ class Signup extends Component {
                           <div>
                             <h3 className="fw-bold text-white mb-0">Pro Bundle</h3>
                             <p>Suscipit + donec</p>
-                            <h4 className="display-6 fw-bold text-white">$38</h4>
+                            <h4 className="display-6 fw-bold text-white">$40</h4>
                           </div>
                           <div><span className="badge rounded-pill bg-primary text-uppercase bg-white-300">Best Value</span></div>
                         </div>
@@ -140,7 +141,7 @@ class Signup extends Component {
                                 </svg></span><span>Nisl potenti ut auctor lobortis.</span></li>
                           </ul>
                         </div>
-                          <a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="/payment" style={{borderWidth: '0px'}}>Choisir</a>
+                          <a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="/payment" style={{borderWidth: '0px'}}>Subscribe</a>
                       </div>
                     </div>
                   </div>
