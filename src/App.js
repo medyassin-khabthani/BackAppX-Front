@@ -14,11 +14,7 @@ import Pricing from './pages/Pricing';
 import Services from './pages/Services';
 
 
-
-
-{/* <Route exact path='/' component={Home}/> */}
 function App() {
-
   const isLoggedIn=window.localStorage.getItem("isLoggedIn");
 
   return (
@@ -41,5 +37,4 @@ function App() {
 
   );
 }
-
 export default App;
