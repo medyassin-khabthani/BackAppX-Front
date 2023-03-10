@@ -63,7 +63,7 @@ class Header extends Component{
                   <li className="nav-item"><a className="nav-link active" href="/">Home</a></li>
                   <li className="nav-item"><a className="nav-link" href="services">Services</a></li>
                   <li className="nav-item"><a className="nav-link" href="pricing">Pricing</a></li>
-                  <li className="nav-item"><a className="nav-link" href="#">Docs</a></li>
+                  <li className="nav-item"><a className="nav-link" href="https://back-app-x-documentation.vercel.app">Docs</a></li>
                 </ul>
                 <ul className="navbar-nav mx-auto">
                   <li className="nav-item"><a className="navbar-brand" style={{fontFamily: 'Bungee, cursive', paddingTop: '-0.6px'}} href="/"><img className="img-fluid" src="assets/img/logo.png" style={{width: '150px'}} /></a></li>

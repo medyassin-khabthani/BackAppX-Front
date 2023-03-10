@@ -14,6 +14,7 @@ class Project extends Component {
 
         }
         this.handleSubmit=this.handleSubmit.bind(this);
+
       }
       
       addToUser(id,ProjectId){
@@ -69,6 +70,7 @@ class Project extends Component {
         })
       }
 
+      
 
       componentDidMount(){
 
@@ -117,11 +119,11 @@ class Project extends Component {
               </a></div>
           </div>
           {projects.reverse().map((project) => (
-            <div key={project.id} className="col col-md-4 mb-3">
-            <div className="card" style={{borderRadius: '20px'}}>
-                <a>
+            <div key={project.id} className="col col-md-4 mb-3" >
+            <div className="card" style={{borderRadius: '20px', textDecoration:'none'}} >
+                <a href="/dashboard" style={{ textDecoration:'none'}}>
               <div className="card-body" style={{boxShadow: '0px 2px 20px rgba(33,37,41,0.52)', height: '220px', borderRadius: '20px'}}>
-                <h4 className="card-title">{project.name}</h4>
+                <h4 className="card-title" >{project.name}</h4>
                 <p className="text-muted" style={{fontSize:'10px'}}>{project.reference}</p>
                 <p className="card-text mb-5">{project.description}</p>
               </div>
@@ -218,7 +220,7 @@ class Project extends Component {
         <hr className="mx-4" />
         <div className="mb-5">
           <h1 className="text-center">Getting started</h1>
-          <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><button className="btn btn-primary mx-auto mt-5 btn-lg" type="button" style={{display: 'block', fontSize: '24px'}}>Accédez à la documentation</button>
+          <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><button className="btn btn-primary mx-auto mt-5 btn-lg" type="button" style={{display: 'block', fontSize: '24px'}}><a href='https://back-app-x-documentation.vercel.app' style={{ color:'white' , textDecoration:'none'}}>Accédez à la documentation</a></button>
         </div>
         <Footer/>
 

@@ -172,7 +172,7 @@ class Home extends Component {
             </div>{/* End: List-group show-hide div content on-click */}
           </div>
           <div className="row mb-5" style={{marginTop: '16px'}}>
-            <div className="col-md-8 col-xl-6 text-center mt-3 mx-auto"><a className="btn btn-primary fs-5  me-2 py-2 px-4" role="button" target="_blank" style={{background: '#1C7BA5', borderColor: '#1C7BA5'}}>Visit Documentation</a></div>
+            <div className="col-md-8 col-xl-6 text-center mt-3 mx-auto"><a className="btn btn-primary fs-5  me-2 py-2 px-4" href='https://back-app-x-documentation.vercel.app' role="button" target="_blank" style={{background: '#1C7BA5', borderColor: '#1C7BA5'}}>Visit Documentation</a></div>
           </div>
         </section>{/* Start: Hero Banner Color */}
         <section className="py-2">
