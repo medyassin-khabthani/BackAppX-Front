@@ -10,17 +10,22 @@ class Signup extends Component {
       name:"",
       email:"",
       password:"",
-      phoneNumber:""
+      passwordCheck:"",
+      phoneNumber:"",
+      showAlert:false,
+      alertText:"",
+      alertColor:"alert-danger",
+      premiumPlan:false
     }
     this.handleSubmit=this.handleSubmit.bind(this);
   }
 
   handleSubmit(e){
     e.preventDefault();
-    const {name,email,password,phoneNumber}=this.state;
+    const {name,email,password,phoneNumber,premiumPlan}=this.state;
     console.log(name,email,password,phoneNumber);
-/* 
-    if (this.ValidateEmail(email)){ */
+
+    if ( this.validate()){
       fetch("http://127.0.0.1:9092/user/register",{
         method:"POST",
         crossDomain:true,
@@ -40,40 +45,68 @@ class Signup extends Component {
       .then((data) => {
         console.log(data,"userRegister")
         if (data?.status == "created"){
-          alert('Signup successful !');
-          window.location.href="./login"
+
+          if (premiumPlan){
+            this.setState({alertText:"Votre compte a été créer. Vous allez être redérigé vers le paiement.",showAlert:true,alertColor:"alert-success"})
+            setTimeout(() => {
+              window.location.href="./payment"
+            }, 2000);
+          }else{
+            this.setState({alertText:"Votre compte a été créer. Vous allez être redérigé vers l'authentification.",showAlert:true,alertColor:"alert-success"})
+            setTimeout(() => {
+              window.location.href="./login"
+            }, 2000);
+          }
+
         } else if(data?.status == "failed"){
-          alert("utilisateur existant");
-        }
+          this.setState({alertText:"Les deux mot de passes doivent être identiques",showAlert:true})
+
+    }
         
   
       })
-/*     } */
+     }
 
   }
+  validate(){
+    const {name,email,password,phoneNumber,passwordCheck} = this.state;
 
-/*   ValidateEmail(input) {
-
+    let check = false;
     var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-    if (input.test(validRegex)) {
-  
-      alert("Valid email address!");  
-  
-      return true;
-  
+    if (name.length>4){
+      check=true;
+    }else{
+      this.setState({alertText:"Le username doit dépasser les 4 caracteres",showAlert:true})
+      return false;
+    }
+    
+    if (email.match(validRegex)) {  
+      check=true;
     } else {
-  
-      alert("Invalid email address!");
-  
-      document.form1.text1.focus();
-  
+        
+      this.setState({alertText:"Email invalide",showAlert:true})
       return false;
   
     } 
-  
-  }*/
+    if (Number.isInteger(parseInt(phoneNumber))){
+      check=true;
+    }else{
+      this.setState({alertText:"Numero de Telephone invalide",showAlert:true})
+      return false;
+    }
+    if (password==passwordCheck){
+      check=true;
+    }else{
+      this.setState({alertText:"Les deux mot de passes doivent être identiques",showAlert:true})
+      return false;
+    }
+    return check;
+
+  }
+
+
     render() {
+      const {alertText,showAlert,alertColor}= this.state;
         return (
             <div className="row" style={{height: '100vh'}}>
             <div style={{position:'absolute',marginTop:'20px'}}>
@@ -85,10 +118,10 @@ class Signup extends Component {
                 <div className="row gy-4 gx-md-0 gy-md-0 row-cols-1 row-cols-md-2 row-cols-xl-3 d-md-flex d-xl-flex align-items-md-center" style={{width: '600px'}}>
                   <div className="col-xl-5 col-xxl-5 offset-xl-2" style={{marginLeft: '30px'}}>
                     <div className="card bg-light border-0">
-                      <div className="card-body p-4" style={{width: '260px'}}>
+                      <div className="card-body p-4" style={{width: '280px'}}>
                         <div className="d-flex justify-content-between">
                           <div>
-                            <h3 className="fw-bold mb-0">Student bundle</h3>
+                            <h3 className="fw-bold mb-0">Free Plan</h3>
                             <p>Suscipit</p>
                             <h4 className="display-6 fw-bold">$0</h4>
                           </div>
@@ -105,16 +138,16 @@ class Signup extends Component {
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                 </svg></span><span>Porta suscipit netus ad ac.</span></li>
                           </ul>
-                        </div><a className="btn btn-primary d-block w-100" role="button" href="#" style={{background: '#1c7ba5', borderWidth: '0px'}}>Choisir</a>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="col-xxl-5">
-                    <div className="card text-white bg-primary border-0" style={{width: '300px', background: 'linear-gradient(#1C7BA5, #1c7ba5), rgb(13, 110, 253)'}}>
-                      <div className="card-body p-4" style={{width: '300px'}}>
+                    <div className="card text-white bg-primary border-0" style={{width: '350px', background: 'linear-gradient(#1C7BA5, #1c7ba5), rgb(13, 110, 253)'}}>
+                      <div className="card-body p-4" style={{width: '320px'}}>
                         <div className="d-flex justify-content-between">
                           <div>
-                            <h3 className="fw-bold text-white mb-0">Pro Bundle</h3>
+                            <h3 className="fw-bold text-white mb-0">Premium Plan</h3>
                             <p>Suscipit + donec</p>
                             <h4 className="display-6 fw-bold text-white">$38</h4>
                           </div>
@@ -138,7 +171,7 @@ class Signup extends Component {
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                 </svg></span><span>Nisl potenti ut auctor lobortis.</span></li>
                           </ul>
-                        </div><a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="#" style={{borderWidth: '0px'}}>Choisir</a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -147,13 +180,38 @@ class Signup extends Component {
             </div>
             <div className="col login-col">
               <div>
+              {showAlert && (
+        <div className={`alert ${alertColor} alert-dismissible w-100 fade show mt-3`} role="alert">
+          {alertText}
+          <button type="button" className="btn-close" onClick={() => this.setState({showAlert:false})}></button>
+        </div>
+             )}
                 <form className="login-form" onSubmit={this.handleSubmit} style={{paddingRight: '100px', paddingLeft: '100px'}}>
                   <h1 style={{marginBottom: '20px'}}>Signup</h1>
-                  <input className="form-control" onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Username" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
-                  <input className="form-control" onChange={(e)=> this.setState({email:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required />
-                  <input className="form-control" onChange={(e)=> this.setState({phoneNumber:e.target.value})} type="tel" placeholder="Numéro de téléphone" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
-                  <input className="form-control" onChange={(e)=> this.setState({password:e.target.value})} type="password" placeholder="password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} required />
-                  <input className="form-control" type="password" placeholder="Confirm password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
+                  <div class="form-floating">
+                  <input className="form-control" id="formUsername" onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Username" style={{marginBottom: '20px', paddingTop: '25px', paddingBottom: '12px'}} required />
+                  <label class="form-label text-secondary" for="formUsername">Username</label>
+                  </div>
+                  <div class="form-floating">
+                  <input className="form-control" id="formEmail" onChange={(e)=> this.setState({email:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '25px', paddingBottom: '12px'}} required />
+                  <label class="form-label text-secondary" for="formEmail">Email</label>
+                  </div>
+                  <div class="form-floating">
+                  <input className="form-control" id="formPhone" onChange={(e)=> this.setState({phoneNumber:e.target.value})} type="tel" placeholder="Numéro de téléphone" style={{marginBottom: '20px', paddingTop: '25px', paddingBottom: '12px'}} required />
+                  <label class="form-label text-secondary" for="formPhone">Numéro de téléphone</label>
+                  </div>
+                  <div class="form-floating">
+                  <input className="form-control" id="formPassword" onChange={(e)=> this.setState({password:e.target.value})} type="password" placeholder="password" style={{paddingTop: '25px', paddingBottom: '12px', marginBottom: '20px'}}  required />
+                  <label class="form-label text-secondary" for="formPassword">Mot de passe</label>
+                  </div>
+                  <div class="form-floating">
+                  <input className="form-control" id="formPasswordCheck" onChange={(e)=> this.setState({passwordCheck:e.target.value})} type="password" placeholder="Confirm password" style={{paddingTop: '25px', paddingBottom: '12px', marginBottom: '20px'}} required />
+                  <label class="form-label text-secondary" for="formPasswordCheck">Confirmer mot de passe</label>
+                  </div>
+                  <div className="btn-group d-block text-center my-3" role="group" aria-label="Basic radio toggle button group" style={{ borderRadius: '15px', borderWidth: '0px'}}>
+                    <input id="btnradio1" className="btn-check" type="radio" name="btnradio" autoComplete="off" value={false} onChange={(e) => this.setState({premiumPlan:e.target.value})} defaultChecked /><label className="form-label btn btn-outline-primary" htmlFor="btnradio1">Free Plan</label>
+                    <input id="btnradio2" className="btn-check" type="radio" name="btnradio" autoComplete="off" value={true} onChange={(e) => this.setState({premiumPlan:e.target.value})}/><label className="form-label btn btn-outline-primary" htmlFor="btnradio2">Premium Plan</label>
+                    </div>
                   <div className="form-buttons">
                   <button className="btn btn-primary login-button" type="submit" style={{paddingRight: '80px', paddingLeft: '80px', borderRadius: '15px', boxShadow: '0px 0px 5px 0px #1c7ba5', background: '#1c7ba5', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px', marginRight: 'auto'}}>S'inscrire</button></div>
                   <div><a className="text-center login-text" href="login" style={{display: 'block', fontSize: '22px', color: '#212529', marginTop: '10px'}}>Login</a></div>

@@ -11,4 +11,6 @@
   border-radius: 0;
   border-bottom-right-radius: .25rem!important;
 }
-
+.btn-outline-primary:hover{
+background-color: #f05b57;
+}
