@@ -9,7 +9,10 @@ class Login extends Component {
     super(props);
     this.state={
         newPass:"",
-        resetLink:""
+        resetLink:"",
+        showAlert:false,
+        alertColor:"alert-danger",
+        alertText:""
     }
     this.handleResetPassword=this.handleResetPassword.bind(this);
   }
@@ -25,6 +28,9 @@ class Login extends Component {
     e.preventDefault();
     const {newPass,resetLink}=this.state;
     console.log(newPass,resetLink);
+    if (this.validate){
+
+
     fetch("http://127.0.0.1:9092/user/reset-password",{
       method:"PUT",
       crossDomain:true,
@@ -41,15 +47,29 @@ class Login extends Component {
     .then((res) => res.json())
     .then((data) => {
       if(data?.status == "ok"){
-        alert(data?.message);
         window.localStorage.clear();
-        window.location.href="./login";
+      this.setState({alertText:"Votre mot de passe a été modifié",showAlert:true,alertColor:"alert-success"})        
+      setTimeout(() => {
+        window.location.href="./login"
+      }, 2000);
       }
     })
   }
+  }
 
+  validate(){
+    const {password,passwordCheck} = this.state;
+
+    if (password==passwordCheck){
+        return true    
+        }else{
+      this.setState({alertText:"Les deux mot de passes doivent être identiques",showAlert:true,alertColor:"alert-danger"})
+      return false;
+    }
+  }
 
     render() {
+      const{alertColor,alertText,showAlert}=this.state;
         const dateReset = window.localStorage.getItem("time");
           // Renderer callback with condition
           const renderer = ({minutes, seconds}) => {
@@ -60,6 +80,12 @@ class Login extends Component {
 
         return (
             <div className="container">
+                            {showAlert && (
+        <div className={`alert ${alertColor} alert-dismissible w-100 fade show mt-3`} role="alert">
+          {alertText}
+          <button type="button" className="btn-close" onClick={() => this.setState({showAlert:false})}></button>
+        </div>
+             )}
 
             <form className="login-form mt-5" onSubmit={this.handleResetPassword} style={{paddingRight: '100px', paddingLeft: '100px'}}>
               <h1 style={{marginBottom: '20px'}}>Entrer votre nouveau mot de passe</h1>

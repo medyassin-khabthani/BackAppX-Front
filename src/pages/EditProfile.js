@@ -15,7 +15,10 @@ class EditProfile extends Component {
       userData:"",
       imageUrl:"",
       buttonColor:"#1c7ba5",
-      buttonText:"Upload image"
+      buttonText:"Upload image",
+      showAlert:false,
+      alertText:"",
+      alertColor:"alert-danger"
     }
     this.handleUpdate=this.handleUpdate.bind(this);
     this.deleteAccount=this.deleteAccount.bind(this);
@@ -60,7 +63,9 @@ class EditProfile extends Component {
     const {id,name,email,phoneNumber}=this.state;
     
     console.log(id,name,email,phoneNumber);
+    if(this.validate()){
 
+  
     fetch(`http://127.0.0.1:9092/user/profile/${id}`,{
       method:"PUT",
       crossDomain:true,
@@ -80,12 +85,16 @@ class EditProfile extends Component {
       console.log(data.user,"user updated")
       if (data?.status == "updated"){
         this.setState({userData:data.user})
-        alert('update successful !');
-        window.location.href="./edit-profile"
+        this.setState({alertText:"Profil modifié avec succées.",showAlert:true,alertColor:"alert-success"})
+        
+        setTimeout(() => {
+          window.location.href="./edit-profile"
+        }, 2000);
        }
       
 
     })
+  }
   }
 
 
@@ -105,7 +114,6 @@ class EditProfile extends Component {
     .then((res) => res.json())
     .then((data) => {
       if (data?.status == "deleted"){
-        alert('deletion successful !');
         window.location.href="./"
         window.localStorage.clear()
       }
@@ -113,14 +121,13 @@ class EditProfile extends Component {
   }
 
    handleImageUpload = e => {
-    
     this.setState({image:e.target.files[0]})
 
     console.log(this.state.image)
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.setState({imageUrl:reader.result})
+        this.setState({imageUrl:reader.result})
     };
 
     reader.readAsDataURL(e.target.files[0]);
@@ -128,37 +135,75 @@ class EditProfile extends Component {
 
   handleUpload(e){
     e.preventDefault();
-    const{image,id}= this.state;
+    const{image,id,imageUrl}= this.state;
     const formData = new FormData();
     formData.append('image', image);
     
-    fetch(`http://127.0.0.1:9092/user/uploadphoto/${id}`, {
-      method: 'PUT',
-      body: formData
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data?.status == "ok"){
-        alert('upload image successful !');
-        console.log(data?.file)
-        window.location.href="./edit-profile"
-      }
-    });
-    const handleClick = () => {
+      fetch(`http://127.0.0.1:9092/user/uploadphoto/${id}`, {
+        method: 'PUT',
+        body: formData
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.status == "ok"){
+          this.setState({showAlert:true,alertColor:'alert-success',alertText:'Image ajouté avec succés',buttonColor:"#1C7BA5",buttonText:"Upload image"})
+          setTimeout(() => {
+            window.location.href="./edit-profile"
+          }, 2000);
+        } 
+      });
+  }
+  validate(){
+    const {name,email,password,phoneNumber,passwordCheck} = this.state;
+
+    let check = false;
+    var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (name.length>4){
+      check=true;
+    }else{
+      this.setState({alertText:"Le username doit dépasser les 4 caracteres",showAlert:true,alertColor:"alert-danger"})
+      return false;
+    }
+    
+    if (email.match(validRegex)) {  
+      check=true;
+    } else {
+        
+      this.setState({alertText:"Email invalide",showAlert:true,alertColor:"alert-danger"})
+      return false;
+  
+    } 
+    if (Number.isInteger(parseInt(phoneNumber))){
+      check=true;
+    }else{
+      this.setState({alertText:"Numero de Telephone invalide",showAlert:true,alertColor:"alert-danger"})
+      return false;
+    }
+    return check;
+
+  }
+     handleClick = () => {
+      const {image}= this.state;
+      if (!image.isNull)
       this.setState({buttonColor:'#176182',buttonText:'Veuillez patienter...'});
     };
 
-  }
-
     render() {
-      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText} = this.state;
+      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor} = this.state;
         return (
             <div>
             <Header/>
+
             <div className="container profile profile-view" id="profile">
-            <div className="row">
+              {showAlert && (
+        <div className={`alert ${alertColor} alert-dismissible w-100 fade show`} role="alert">
+          {alertText}
+          <button type="button" className="btn-close" onClick={() => this.setState({showAlert:false})}></button>
+        </div>
+             )}
+           <div className="row">
               <div className="col-md-12 alert-col relative">
-                <div className="alert alert-info alert-dismissible absolue center" role="alert"><button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" /><span>Profile save with success</span></div>
+
               </div>
             </div> 
 
@@ -168,7 +213,7 @@ class EditProfile extends Component {
                   <div className="avatar">
                     <div className="center">  
                     {imageUrl && <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
-                  </div><input className="form-control form-control" type="file" onChange={this.handleImageUpload} name="avatar-file" />
+                  </div><input className="form-control form-control" type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>
                   <button className='btn btn-primary w-100 mt-3' style={{background: buttonColor, boxShadow: '0px 0px 7px #1c7ba5', border:"none"}} onClick={this.handleClick} type="submit">{buttonText}</button>
                   </form>
                 </div>
@@ -178,21 +223,13 @@ class EditProfile extends Component {
                   <hr />
                   <div className="row">
                     <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({name:e.target.value})} name="username" placeholder="Nom d'utilisateur"  value={name} /></div>
+                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({name:e.target.value})} name="username" placeholder="Nom d'utilisateur"  value={name} required /></div>
                     </div>
                     <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({phoneNumber:e.target.value})} name="phone" placeholder="Numéro de téléphone" value={phoneNumber} /></div>
+                      <div className="form-group mb-3"><input className="form-control" type="text" onChange={(e)=> this.setState({phoneNumber:e.target.value})} name="phone" placeholder="Numéro de téléphone" value={phoneNumber} required /></div>
                     </div>
                   </div>
-                  <div className="form-group mb-3"><input className="form-control" type="email" onChange={(e)=> this.setState({email:e.target.value})} autoComplete="off"  name="email" placeholder="Email" value={email} /></div>
-                  {/* <div className="row">
-                    <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="password" name="password" autoComplete="off" required placeholder="Mot de passe" /></div>
-                    </div>
-                    <div className="col-sm-12 col-md-6">
-                      <div className="form-group mb-3"><input className="form-control" type="password" name="confirmpass" autoComplete="off" required placeholder="Confirmer mot de passe" /></div>
-                    </div>
-                  </div> */}
+                  <div className="form-group mb-3"><input className="form-control" type="email" onChange={(e)=> this.setState({email:e.target.value})} autoComplete="off"  name="email" placeholder="Email" value={email} required /></div>
                   <div className="row">
                     <div className="col-md-12 content-right "><button className="btn btn-primary form-btn" type="submit" style={{background: '#1c7ba5', boxShadow: '0px 0px 7px #1c7ba5', border:"none"}}>Confirmer</button><button className="btn form-btn btn-secondary text-secondary" type="reset" style={{background: 'rgba(220,53,69,0)'}}>Annuler</button></div>
                   </div>
@@ -201,9 +238,25 @@ class EditProfile extends Component {
                 </div>
                 <hr className='mt-4'/>
                 <div className="col">
-                  <p>Lorem ipsum det alore ist.</p><button className="btn btn-primary" onClick={this.deleteAccount} type="button" style={{width: '200px', background: '#f05b57', boxShadow: '0px 0px 4px #f05b57',border:"none"}}>Delete my account</button>
+                  <p>Lorem ipsum det alore ist.</p><button className="btn btn-primary"  type="button" style={{width: '200px', background: '#f05b57', boxShadow: '0px 0px 4px #f05b57',border:"none"}}> <a href="#myModal" data-bs-toggle="modal" style={{color: 'white',textDecoration:"none"}}>Delete my account</a></button>
                 </div>
               </div>
+          </div>
+
+          <div id="myModal" className="modal fade" role="dialog" tabIndex={-1}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <form>
+                <div className="modal-header">
+                  <h6>Êtes-vous sûr de vouloir supprimer votre compte ?</h6><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
+                </div>
+                <div className="modal-footer">
+                <button className="btn btn-light" type="button" data-bs-dismiss="modal">Annuler</button>
+                <button className="btn btn-primary" onClick={this.deleteAccount}>Confirmer</button>
+                </div>
+                </form>
+              </div>
+            </div>
           </div>
           <Footer/>
           </div>

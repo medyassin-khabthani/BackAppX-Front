@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route,Routes } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+const Footer = () => {
+  const [t , i18n] = useTranslation();
 
-class Footer extends Component{
-    render() {
       return (
         <footer>
         <div className="container py-4">
@@ -21,8 +22,8 @@ class Footer extends Component{
           <div className="row row-cols-2 row-cols-md-4">
             {/* Start: Social Icons */}
             <div className="col-12 col-md-3">
-              <div className="fw-bold d-flex align-items-center mb-2"><span>Contact</span></div>
-              <p className="text-muted">Sem eleifend donec molestie, integer quisque orci aliquam.</p>
+              <div className="fw-bold d-flex align-items-center mb-2"><span>BackAppX</span></div>
+              <p className="text-muted">{t('footer1')}</p>
             </div>{/* End: Social Icons */}
             {/* Start: Services */}
             <div className="col-sm-4 col-md-3 text-lg-start d-flex flex-column">
@@ -36,7 +37,7 @@ class Footer extends Component{
             {/* End: Services */}
             {/* Start: About */}
             <div className="col-sm-4 col-md-3 text-lg-start d-flex flex-column">
-              <h3 className="fs-6 fw-bold">About</h3>
+              <h3 className="fs-6 fw-bold">{t('footer2')}</h3>
               <ul className="list-unstyled">
                 <li><a className="link-primary" href="#">Company</a></li>
                 <li><a className="link-primary" href="#">Team</a></li>
@@ -45,7 +46,7 @@ class Footer extends Component{
             </div>{/* End: About */}
             {/* Start: Careers */}
             <div className="col-sm-4 col-md-3 text-lg-start d-flex flex-column">
-              <h3 className="fs-6 fw-bold">Careers</h3>
+              <h3 className="fs-6 fw-bold">{t('footer3')}</h3>
               <ul className="list-unstyled">
                 <li><a href="#">Job openings</a></li>
                 <li><a href="#">Employee success</a></li>
@@ -73,5 +74,4 @@ class Footer extends Component{
       </footer>
       );
     }
-  };
   export default Footer;
