@@ -128,7 +128,8 @@ class Project extends Component {
           console.log("1");
 
         if (this.validate()){
-                      console.log("2");
+                      
+          console.log("2");
 
      
         fetch("http://127.0.0.1:9092/project/project",{
@@ -146,10 +147,12 @@ class Project extends Component {
           }),
         })
         .then((res) => res.json())
-        .then((data) => {            console.log("3");
+        .then((data) => {            
+          console.log("3");
 
             if(data?.status == "created")
-          console.log(data?.newProject._id);            console.log("4");
+          console.log(data?.newProject._id);            
+          console.log("4");
 
           this.addToUser(id,data?.newProject._id)
           console.log("5");
