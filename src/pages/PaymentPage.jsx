@@ -12,9 +12,6 @@ const stripePromise = loadStripe("pk_test_51Mb8mPF6RxBlwxAlmEu6D4T8OjxlLgUVYdik8
 
 export default function App() {
     const [clientSecret, setClientSecret] = useState("");
-
-  
-
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
         fetch("http://localhost:9092/payment/create-payment-intent", {

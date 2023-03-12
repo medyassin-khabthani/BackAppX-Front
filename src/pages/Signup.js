@@ -92,7 +92,7 @@ class Signup extends Component {
                         <div className="d-flex justify-content-between">
                           <div>
                             <h3 className="fw-bold mb-0">Starter bundle</h3>
-                            <p>Suscipit</p>
+                            <p>Basic Plan </p>
                             <h4 className="display-6 fw-bold">$0</h4>
                           </div>
                         </div>
@@ -100,16 +100,16 @@ class Signup extends Component {
                           <ul className="list-unstyled">
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Lectus ut nibh quam, felis porttitor.</span></li>
+                                </svg></span><span>Database Limitation.</span></li>
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Ante nec venenatis etiam lacinia.</span></li>
+                                </svg></span><span>Datastorage Limitation.</span></li>
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Porta suscipit netus ad ac.</span></li>
+                                </svg></span><span>Expires after a year.</span></li>
                           </ul>
                         </div>
-                        <div className="d-grid"><a className="btn btn-primary"   role="button">Get Started</a></div>
+                        <div className="d-grid"></div>
                       </div>
                     </div>
                   </div>
@@ -128,13 +128,13 @@ class Signup extends Component {
                           <ul className="list-unstyled">
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Lectus ut nibh quam, felis porttitor.</span></li>
+                                </svg></span><span>Database Full Access .</span></li>
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Ante nec venenatis etiam lacinia.</span></li>
+                                </svg></span><span>Media Storage Full Access.</span></li>
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                </svg></span><span>Porta suscipit netus ad ac.</span></li>
+                                </svg></span><span>Servcies Full Accesss.</span></li>
                             <li className="d-flex mb-2"><span className="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-check-lg">
                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                 </svg></span><span>Morbi praesent aptent integer at.</span></li>
@@ -143,7 +143,7 @@ class Signup extends Component {
                                 </svg></span><span>Nisl potenti ut auctor lobortis.</span></li>
                           </ul>
                         </div>
-                          <a className="btn btn-primary d-block w-100 bg-white-300" role="button" href="/payment" style={{borderWidth: '0px'}}>Subscribe</a>
+                          
                       </div>
                     </div>
                   </div>
@@ -159,6 +159,16 @@ class Signup extends Component {
                   <input className="form-control" onChange={(e)=> this.setState({phoneNumber:e.target.value})} type="tel" placeholder="Numéro de téléphone" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} required/>
                   <input className="form-control" onChange={(e)=> this.setState({password:e.target.value})} type="password" placeholder="password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} required />
                   <input className="form-control" type="password" placeholder="Confirm password" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
+                  
+
+                  
+                  <div class="btn-group " role="group" aria-label="Basic radio toggle button group" style={{paddingRight: '30px', paddingLeft:'60px', borderRadius: '15px', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px', marginRight: 'auto'}}>
+                    <input id="btnradio1" class="btn-check" type="radio" name="btnradio" autocomplete="off" checked /><label class="form-label btn btn-outline-primary" for="btnradio1">Free Plan</label>
+                    <input id="btnradio2" class="btn-check" type="radio" name="btnradio" autocomplete="off" /><label class="form-label btn btn-outline-primary" for="btnradio2">Pro Plan</label>
+                  </div>
+
+
+                  
                   <div className="form-buttons">
                   <button className="btn btn-primary login-button" type="submit" style={{paddingRight: '80px', paddingLeft: '80px', borderRadius: '15px', boxShadow: '0px 0px 5px 0px #1c7ba5', background: '#1c7ba5', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px', marginRight: 'auto'}}>S'inscrire</button></div>
                   <div><a className="text-center login-text" href="login" style={{display: 'block', fontSize: '22px', color: '#212529', marginTop: '10px'}}>Login</a></div>
