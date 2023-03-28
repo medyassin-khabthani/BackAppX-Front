@@ -59,7 +59,7 @@ export default function CheckoutForm() {
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: "http://localhost:3000/login",
+                return_url: "http://localhost:3000/payment",
             },
         });
         if (error.type === "card_error" || error.type === "validation_error") {

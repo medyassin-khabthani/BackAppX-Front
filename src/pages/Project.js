@@ -85,14 +85,11 @@ class Project extends Component {
         .then((data) => {
           console.log(data.user,"user updated")
           if (data?.status == "updated"){
-            console.log("2");
             this.setState({userData:data.user})
             this.setState({alertText:"Projet modifié avec succées.",showAlert:true,alertColor:"alert-success"})
-            console.log("3");
             setTimeout(() => {
               window.location.href="./project"
             }, 2000);
-            console.log("4");
            }
           
     
@@ -125,11 +122,9 @@ class Project extends Component {
 
         e.preventDefault();
         const {id,name,description,bgColor}=this.state;
-          console.log("1");
 
         if (this.validate()){
                       
-          console.log("2");
 
      
         fetch("http://127.0.0.1:9092/project/project",{
@@ -148,16 +143,11 @@ class Project extends Component {
         })
         .then((res) => res.json())
         .then((data) => {            
-          console.log("3");
 
             if(data?.status == "created")
           console.log(data?.newProject._id);            
-          console.log("4");
 
           this.addToUser(id,data?.newProject._id)
-          console.log("5");
-
-
         })
       }
     }
@@ -233,6 +223,11 @@ class Project extends Component {
           return check;
         }
 
+        goToDashboard(id){
+          window.localStorage.setItem("projectId",id);
+          window.location.href="./dashboard"
+        }
+
     render() {
         const { projects,bgColor,showAlert,alertColor,alertText,idProject,name,description,nameEdit,descriptionEdit,bgColorEdit } = this.state;
 
@@ -252,8 +247,8 @@ class Project extends Component {
           </div>
           {projects.reverse().map((project) => (
             <div key={project._id} className="col col-md-4 mb-3">
-            <div className="card" style={{borderRadius: '20px'}}>
-                <a>
+              <a href="#" style={{textDecoration:"none", color:"#212529"}}>
+             <div className="card" onClick={()=>{this.goToDashboard(project._id)}} style={{borderRadius: '20px'}}>
               <div className="card-body" style={{boxShadow: '0px 2px 20px rgba(33,37,41,0.52)', height: '220px', borderRadius: '20px'}}>
                 <div style={{height:"80px",borderTopLeftRadius:'20px',borderTopRightRadius:"20px",background:`${project.bgColor}`,margin:"-16px -16px 0 -16px", padding:"16px 16px 0 16px "}}>
                 <div className='d-flex'>
@@ -270,8 +265,8 @@ class Project extends Component {
                 </div>
                 <p className="card-text mt-2 mb-5">{project.description}</p>
               </div>
-              </a>
             </div>
+            </a>
           </div>
 
                ))}

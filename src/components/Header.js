@@ -128,7 +128,7 @@ const Header = () => {
         .then((data) => {
           setToken(window.localStorage.getItem('token'));
           setUserData(data?.data);
-          setImageUrl(data?.data.image.url);
+          setImageUrl(data?.data.image);
         });
     }
   }, []);
@@ -168,7 +168,7 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto">
                 <div className="dropdown show">
                         <a className="dropdown-toggle"  style={{textDecoration:'none',color:'#000000E6'}}href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span>{userData.name}</span><img src={imageUrl} style={{width:"30px",height:"30px",borderRadius: "50%",marginLeft:"10px"}} />
+                          <span>{userData.name}</span><img src={`http://localhost:9092/user/image/${userData._id}/${userData.image}`} style={{width:"30px",height:"30px",borderRadius: "50%",marginLeft:"10px"}} />
                         </a>
                         <div className="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
                         <a className="dropdown-item" href="project">{t('menuDrop1')}</a>

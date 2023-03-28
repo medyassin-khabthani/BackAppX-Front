@@ -121,7 +121,7 @@ class uploadImage extends Component {
                   <div className='center my-3'>
                   <button className='btn btn-primary mt-3' style={{background: buttonColor, boxShadow: '0px 0px 7px #1c7ba5', border:"none"}} onClick={this.handleClick} type="submit">{buttonText}</button>
                   </div>
-                  <a className="text-center signup-text" href="signup" style={{fontSize: '18px', display: 'block', color: '#212529', marginTop: '10px'}}>skip</a>
+                  <a className="text-center signup-text" href="/" style={{fontSize: '18px', display: 'block', color: '#212529', marginTop: '10px'}}>skip</a>
 
                   </form>
                 </div>

@@ -4,8 +4,18 @@ class NavLeftDashboard extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: null
+      activeItem: null,
+      projectName:""
     };
+  }
+  
+  componentDidMount(){
+    const projectId = window.localStorage.getItem('projectId');
+    fetch(`http://127.0.0.1:9092/project/project/${projectId}`)
+    .then((res) => res.json())
+    .then((data) => {
+        this.setState({projectName:data?.project.name});
+      })
   }
 
   handleClick = (item) => {
@@ -13,13 +23,15 @@ class NavLeftDashboard extends Component{
   }
 
     render() {
+      const {projectName} = this.state;
       return (
         <nav className="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style={{background: 'linear-gradient(#00a0c4 0%, #005bc6), #ef99a3'}}>
             <div className="container-fluid align-items-center p-0" ><a className="navbar-brand  justify-content-center align-items-center sidebar-brand m-0" href="/dashboard"><img src="assetsDash/img/logo/logo_light_mode-01.png" alt="logo" width="137" height="36" style={{}}/>
                     <div className="sidebar-brand-icon rotate-n-15"></div>
                     <div className="sidebar-brand-text mx-3"></div>
                 </a>
-                <hr className="sidebar-divider my-0"/>
+                <hr className="sidebar-divider"/>
+                <h5 style={{padding:"0 16px",color:"#fff"}}>{projectName}</h5>
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item"><a className="nav-link" href="/dashboard" onClick={() => this.handleClick("dashboard")}><i className="material-icons">dashboard</i><span style={{paddingleft: '0px', marginleft: '0px'}}>Dashboard</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/authentification" onClick={() => this.handleClick("authentification")}><i className="icon ion-log-in"></i><span>Authentification</span></a></li>

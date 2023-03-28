@@ -1,8 +1,45 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-class HeaderDashbaord extends Component{
-    render() {
-      return (
+const HeaderDashbaord = () => {
+
+  const [token, setToken] = useState('');
+  const [userData, setUserData] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    const isLoggedIn = window.localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+      fetch('http://127.0.0.1:9092/user/userData', {
+        method: 'POST',
+        crossDomain: true,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          token: window.localStorage.getItem('token'),
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setToken(window.localStorage.getItem('token'));
+          setUserData(data?.data);
+        });
+    }
+  }, []);
+
+  function disconnect() {
+    window.localStorage.clear();
+    window.location.href = './';
+  }
+
+  const isLoggedIn = window.localStorage.getItem('isLoggedIn');
+
+
+  return (
             <nav className="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top border-0">
                     <div className="container-fluid"><button className="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i className="fas fa-bars"></i></button>
                         <form className="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -50,7 +87,7 @@ class HeaderDashbaord extends Component{
                                 <div className="nav-item dropdown no-arrow"><a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><span className="badge bg-danger badge-counter">7</span><i className="fas fa-envelope fa-fw"></i></a>
                                     <div className="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
                                         <h6 className="dropdown-header">alerts center</h6><a className="dropdown-item d-flex align-items-center" href="index.html">
-                                            <div className="dropdown-list-image me-3"><img className="rounded-circle" src="assetsDash/img/avatars/avatar4.jpeg"  alt="avatar" />
+                                            <div className="dropdown-list-image me-3"><img className="rounded-circle" src=''  alt="avatar" />
                                                 <div className="bg-success status-indicator"></div>
                                             </div>
                                             <div className="fw-bold">
@@ -89,7 +126,7 @@ class HeaderDashbaord extends Component{
                             
                             <div className="d-none d-sm-block topbar-divider"></div>
                             <li className="nav-item dropdown no-arrow">
-                                <div className="nav-item dropdown no-arrow"><a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><span className="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span><img className="border rounded-circle img-profile" src="assetsDash/img/avatars/avatar1.jpeg"  alt="avatar" /></a>
+                                <div className="nav-item dropdown no-arrow"><a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><span className="d-none d-lg-inline me-2 text-gray-600 small">{userData.name}</span><img className="border rounded-circle img-profile" src={`http://localhost:9092/user/image/${userData._id}/${userData.image}`} alt="avatar" /></a>
                                     <div className="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a className="dropdown-item" href="index.html"><i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a className="dropdown-item" href="/"><i className="fas fa-globe fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;BackAppx</a><a className="dropdown-item" href="https://back-app-x-documentation.vercel.app"><i className="fas fa-hashtag fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Docs</a>
                                         <div className="dropdown-divider"></div><a className="dropdown-item" href="index.html"><i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
@@ -100,6 +137,5 @@ class HeaderDashbaord extends Component{
                    </nav>
                   )
             }
-        }
         
 export default HeaderDashbaord;

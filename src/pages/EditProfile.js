@@ -18,7 +18,8 @@ class EditProfile extends Component {
       buttonText:"Upload image",
       showAlert:false,
       alertText:"",
-      alertColor:"alert-danger"
+      alertColor:"alert-danger",
+      showImage:false
     }
     this.handleUpdate=this.handleUpdate.bind(this);
     this.deleteAccount=this.deleteAccount.bind(this);
@@ -49,11 +50,13 @@ class EditProfile extends Component {
       name:data?.data.name,
       phoneNumber:data?.data.phoneNumber,
       email:data?.data.email,
-      imageUrl:data?.data.image.url
+      userImage:data?.data.image
 
     });
       console.log("data:", data)
+      console.log("id",this.state.id)
     })
+  
   }
 
 
@@ -121,6 +124,7 @@ class EditProfile extends Component {
   }
 
    handleImageUpload = e => {
+
     this.setState({image:e.target.files[0]})
 
     console.log(this.state.image)
@@ -131,15 +135,17 @@ class EditProfile extends Component {
     };
 
     reader.readAsDataURL(e.target.files[0]);
+    this.setState({showImage:true});    
   };
 
   handleUpload(e){
     e.preventDefault();
     const{image,id,imageUrl}= this.state;
     const formData = new FormData();
-    formData.append('image', image);
-    
-      fetch(`http://127.0.0.1:9092/user/uploadphoto/${id}`, {
+    formData.append('file', image);
+
+    console.log(id);
+      fetch(`http://127.0.0.1:9092/user/upload/${id}`, {
         method: 'PUT',
         body: formData
       })
@@ -189,8 +195,8 @@ class EditProfile extends Component {
     };
 
     render() {
-      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor} = this.state;
-        return (
+      const {id,name,phoneNumber,email,userImage,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor,showImage} = this.state;
+      return (
             <div>
             <Header/>
 
@@ -212,7 +218,7 @@ class EditProfile extends Component {
                   <form onSubmit={this.handleUpload}>
                   <div className="avatar">
                     <div className="center">  
-                    {imageUrl && <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} /> : <img className='mb-2' src={`http://localhost:9092/user/image/${id}/${userImage}`} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} /> }</div>
                   </div><input className="form-control form-control" type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>
                   <button className='btn btn-primary w-100 mt-3' style={{background: buttonColor, boxShadow: '0px 0px 7px #1c7ba5', border:"none"}} onClick={this.handleClick} type="submit">{buttonText}</button>
                   </form>

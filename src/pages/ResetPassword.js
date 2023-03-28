@@ -12,7 +12,8 @@ class Login extends Component {
         resetLink:"",
         showAlert:false,
         alertColor:"alert-danger",
-        alertText:""
+        alertText:"",
+        passwordCheck:""
     }
     this.handleResetPassword=this.handleResetPassword.bind(this);
   }
@@ -28,9 +29,8 @@ class Login extends Component {
     e.preventDefault();
     const {newPass,resetLink}=this.state;
     console.log(newPass,resetLink);
+
     if (this.validate){
-
-
     fetch("http://127.0.0.1:9092/user/reset-password",{
       method:"PUT",
       crossDomain:true,
@@ -58,11 +58,12 @@ class Login extends Component {
   }
 
   validate(){
-    const {password,passwordCheck} = this.state;
+    const {newPass,passwordCheck} = this.state;
 
-    if (password==passwordCheck){
+    if (newPass==passwordCheck){
         return true    
-        }else{
+        }else
+        {
       this.setState({alertText:"Les deux mot de passes doivent être identiques",showAlert:true,alertColor:"alert-danger"})
       return false;
     }
@@ -90,7 +91,7 @@ class Login extends Component {
             <form className="login-form mt-5" onSubmit={this.handleResetPassword} style={{paddingRight: '100px', paddingLeft: '100px'}}>
               <h1 style={{marginBottom: '20px'}}>Entrer votre nouveau mot de passe</h1>
               <input className="form-control" type="password" onChange={(e)=> this.setState({newPass:e.target.value})} placeholder="Nouveau mot de passe" style={{marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px'}} />
-              <input className="form-control" type="password"  placeholder="Confirmer nouveau mot de passe" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
+              <input className="form-control" type="password" onChange={(e)=> this.setState({passwordCheck:e.target.value})}  placeholder="Confirmer nouveau mot de passe" style={{paddingTop: '12px', paddingBottom: '12px', marginBottom: '20px'}} />
               <div className="form-buttons"><p className="password-forgot" style={{color: '#212529',marginBottom:"0px"}}>Votre clé de réinisialisation expire dans:&nbsp; </p><Countdown date={parseInt(dateReset) + 900000} zeroPadTime={2} renderer={renderer} />
               <button className="btn btn-primary login-button" type="submit" style={{paddingRight: '80px', paddingLeft: '80px', borderRadius: '15px', boxShadow: '0px 0px 5px 0px #f05b57', background: '#f05b57', marginLeft: 'auto', paddingTop: '12px', paddingBottom: '12px', borderWidth: '0px'}}>Confirmer</button></div>
               
