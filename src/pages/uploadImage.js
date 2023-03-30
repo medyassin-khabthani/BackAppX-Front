@@ -18,7 +18,10 @@ class uploadImage extends Component {
       buttonText:"Upload image",
       showAlert:false,
       alertText:"",
-      alertColor:"alert-danger"
+      userImage:"",
+      alertColor:"alert-danger",
+      showImage:false
+
     }
     this.handleUpload=this.handleUpload.bind(this);
 
@@ -47,10 +50,13 @@ class uploadImage extends Component {
       name:data?.data.name,
       phoneNumber:data?.data.phoneNumber,
       email:data?.data.email,
-      imageUrl:data?.data.image.url
+      userImage:data?.data.image
 
     });
       console.log("data:", data)
+      if (data?.data.image){
+        this.setState({imageUrl: "http://localhost:9092/user/image/avatar/avatar.png",showImage:true})
+      }
     })
   }
 
@@ -65,15 +71,16 @@ class uploadImage extends Component {
     };
 
     reader.readAsDataURL(e.target.files[0]);
+    this.setState({showImage:true})
   };
 
   handleUpload(e){
     e.preventDefault();
     const{image,id,imageUrl}= this.state;
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('file', image);
     
-      fetch(`http://127.0.0.1:9092/user/uploadphoto/${id}`, {
+      fetch(`http://127.0.0.1:9092/user/upload/${id}`, {
         method: 'PUT',
         body: formData
       })
@@ -94,7 +101,7 @@ class uploadImage extends Component {
     };
 
     render() {
-      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor} = this.state;
+      const {name,phoneNumber,email,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor,id,userImage,showImage} = this.state;
         return (
             <div>
 
@@ -113,7 +120,7 @@ class uploadImage extends Component {
                   <form onSubmit={this.handleUpload}>
                   <div className="avatar">
                     <div className="center my-3">  
-                    {imageUrl && <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />:<img className='mb-2' src={`http://localhost:9092/user/image/${id}/${userImage}`} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
                   </div>
                   <div className='center my-3'>
                   <input className="form-control d-inline form-control" style={{width:"400px"}} type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>

@@ -17,6 +17,7 @@ class EditProfile extends Component {
       buttonColor:"#1c7ba5",
       buttonText:"Upload image",
       showAlert:false,
+      userImage:"",
       alertText:"",
       alertColor:"alert-danger",
       showImage:false
@@ -55,8 +56,15 @@ class EditProfile extends Component {
     });
       console.log("data:", data)
       console.log("id",this.state.id)
+      
+    if (data?.data.image === "avatar.png"){
+      this.setState({imageUrl:"http://localhost:9092/user/image/avatar/avatar.png",showImage:true})
+    }
     })
-  
+    const {userImage,imageUrl,showImage} = this.state;
+    console.log(userImage,imageUrl)
+
+
   }
 
 
