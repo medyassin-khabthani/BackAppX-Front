@@ -19,6 +19,8 @@ import Storage from './pages/Storage';
 import ApiGen from './pages/ApiGen';
 import Extensions from './pages/Extensions';
 import Products from './pages/Products';
+import Mailing from './pages/Mailing';
+
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
 
@@ -45,6 +47,7 @@ function App() {
         <Route exact path="/storage" element={<Storage />} />
         <Route exact path="/apigene" element={<ApiGen />} />
         <Route exact path="/extensions" element={<Extensions />} />
+        <Route exact path="/mailing" element={<Mailing />} />
         <Route exact path="/products" element={<Products />} />
 
 
