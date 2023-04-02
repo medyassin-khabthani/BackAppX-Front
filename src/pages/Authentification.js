@@ -11,7 +11,6 @@ class Authentification extends Component {
         this.state={
             clients:[],
             clientsFiltered:[],
-            references:[],
             searchQuery: "",
             clientId:"",
             searchTerm: "",
@@ -27,12 +26,11 @@ class Authentification extends Component {
             phoneNumberEdit:"", 
             showAlert:false,
             alertColor:"alert-danger",
-            alertText:""
+            alertText:"",
+            projectId:"",
                 }
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleSearch=this.handleSearch.bind(this);
-        this.generateRandomString = this.generateRandomString.bind(this);
-        this.checkIfCodeExists = this.checkIfCodeExists.bind(this);
         this.handleUpdate=this.handleUpdate.bind(this);
 
     
@@ -40,14 +38,13 @@ class Authentification extends Component {
       }
 
       componentDidMount(){
+        this.setState({projectId:window.localStorage.getItem("projectId")})
         fetch("http://127.0.0.1:9092/client/client")
         .then((res) => res.json())
         .then((data) => {
 
         this.setState({clients:data,clientsFiltered:data});
 
-        const references = data.map(obj => obj.reference);
-        this.setState({references:references})
 
         
             
@@ -95,7 +92,7 @@ class Authentification extends Component {
     }
       }; */
 
-      generateRandomString (length) {
+/*       generateRandomString (length) {
         const allowedChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         let randomString = '';
         for (let i = 0; i < length; i++) {
@@ -108,7 +105,7 @@ class Authentification extends Component {
       checkIfCodeExists(code) {
         const {references} = this.state;
         return references.includes(code);
-      }
+      } */
     
 
       handleUpdate(e){
@@ -238,14 +235,8 @@ class Authentification extends Component {
     
       handleSubmit(e){
         e.preventDefault();
-
-      let reference = '';
-      let codeExists = true;
-      while (codeExists) {
-        reference = this.generateRandomString(6);
-        codeExists = this.checkIfCodeExists(reference);
-      }
-        const {name,familyName,email,phoneNumber,password}=this.state;   
+      const {name,familyName,email,phoneNumber,password,projectId}=this.state;   
+      let reference = projectId;
         if (this.validate()){
 
           fetch("http://127.0.0.1:9092/client/client",{
