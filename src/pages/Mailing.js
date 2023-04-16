@@ -22,7 +22,7 @@ function Mailing() {
     const [alertColor,setAlertColor] = useState('alert-danger');
     const [emails,setEmails] = useState([]);
     const [selectedEmail, setSelectedEmail] = useState('');
-
+    const [emailId, setEmailId]=useState('');
 
 
     const options = clients.map((client) => ({
@@ -34,7 +34,7 @@ function Mailing() {
     
     React.useEffect(() => {
         const isLoggedIn = window.localStorage.getItem('isLoggedIn');
-        const projectId = window.localStorage.getItem('projectId')
+        const reference = window.localStorage.getItem('reference')
         if (isLoggedIn === 'true') {
           fetch('http://127.0.0.1:9092/user/userData', {
             method: 'POST',
@@ -54,7 +54,7 @@ function Mailing() {
               setSender(data?.data._id)
             });
         }
-        getClientsByReferences(projectId);
+        getClientsByReferences(reference);
         getEmails();
 
         if (quill) {
@@ -82,8 +82,8 @@ function Mailing() {
             ))
             return clientsName;
       }
-      function getClientsByReferences(projectId){
-        fetch(`http://127.0.0.1:9092/client/client/${projectId}`, {
+      function getClientsByReferences(reference){
+        fetch(`http://127.0.0.1:9092/client/client/${reference}`, {
             method: 'GET',
             crossDomain: true,
             headers: {
@@ -116,7 +116,7 @@ function Mailing() {
       const handleChange = (selectedOptions) => {
         setSelectedOptions(selectedOptions);
       };
-      const qlToHtml = () => {
+      /* const qlToHtml = () => {
         if (quill) {
           const editorContent = quill.root.innerHTML;
       
@@ -188,7 +188,95 @@ function Mailing() {
       
           return(contentWithoutClasses);
         }
-      };
+      }; */
+
+      const qlToHtml = () => {
+        if (quill) {
+          const editorContent = quill.root.innerHTML;
+      
+          // Replace Quill-specific classes with inline styles
+          const contentWithoutClasses = editorContent.replace(/class="(.*?)"/g, function(match, p1) {
+            const classList = p1.split(' ');
+            let styles = '';
+            classList.forEach(function(className) {
+              switch (className) {
+                case 'ql-code-block':
+                  styles += 'white-space: pre-wrap; ';
+                  break;
+                case 'ql-size-huge':
+                  styles += 'font-size: 2.5em; ';
+                  break;
+                case 'ql-size-large':
+                  styles += 'font-size: 1.5em; ';
+                  break;
+                case 'ql-size-small':
+                  styles += 'font-size: 0.75em; ';
+                  break;
+                case 'ql-strike':
+                  styles += 'text-decoration: line-through; ';
+                  break;
+                case 'ql-bold':
+                  styles += 'font-weight: bold; ';
+                  break;
+                case 'ql-italic':
+                  styles += 'font-style: italic; ';
+                  break;
+                case 'ql-underline':
+                  styles += 'text-decoration: underline; ';
+                  break;
+                case 'ql-background-white':
+                  styles += 'background-color: white; ';
+                  break;
+                case 'ql-background-red':
+                  styles += 'background-color: red; ';
+                  break;
+                case 'ql-color-white':
+                  styles += 'color: white; ';
+                  break;
+                case 'ql-color-red':
+                  styles += 'color: red; ';
+                  break;
+                case 'ql-align-center':
+                  styles += 'text-align: center; ';
+                  break;
+                case 'ql-align-justify':
+                  styles += 'text-align: justify; ';
+                  break;
+                case 'ql-align-right':
+                  styles += 'text-align: right; ';
+                  break;
+                default:
+                  if (/^ql-indent-\d+$/.test(className)) {
+                    const level = Number(className.replace('ql-indent-', ''));
+                    styles += `text-indent: ${level * 2}em; `;
+                  }
+                  break;
+              }
+            });
+            if (styles) {
+              return 'style="' + styles.trim() + '"';
+            } else {
+              return '';
+            }
+          });
+      
+          // Combine style attributes in same tag
+          const contentWithoutDuplicateStyles = contentWithoutClasses.replace(/style="(.*?)"/g, function(match, p1) {
+            const styleList = p1.split(';');
+            const styleObj = {};
+            styleList.forEach(function(style) {
+              const parts = style.split(':');
+              if (parts.length === 2) {
+                styleObj[parts[0].trim()] = parts[1].trim();
+              }
+            });
+            return 'style="' + Object.entries(styleObj).map(([key, value]) => `${key}: ${value}`).join('; ') + '"';
+          });
+      
+          return contentWithoutDuplicateStyles;
+       
+        }      
+      }
 
     function formatDate(dateString){
  
@@ -237,6 +325,7 @@ function Mailing() {
       let body = qlToHtml();
       const recipients = selectedOptions.map((option) => option.value);
         
+      let project = window.localStorage.getItem("projectId");
       console.log(scheduleDate,recipients,subject,sender,body);
 
 
@@ -255,7 +344,8 @@ function Mailing() {
               recipients,
               subject,
               body,
-              scheduleDate
+              scheduleDate,
+              project
               
             }),
           })
@@ -268,7 +358,24 @@ function Mailing() {
         }
 
       }
-
+      function deleteEmail(id){
+    
+        fetch(`http://127.0.0.1:9092/email/${id}`,{
+          method:"DELETE",
+          crossDomain:true,
+          headers:{
+            "Content-Type":"application/json",
+            Accept:"application/json",
+            "Access-Control-Allow-Origin":"*",
+          }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.status == "deleted"){
+            window.location.href="./mailing"
+          }
+        })
+      }
         return (
             <><script src="assetsDash/bootstrap/js/bootstrap.min.js"></script><script src="assetsDash/js/chart.min.js"></script><script src="assetsDash/js/bs-init.js"></script><script src="assetsDash/js/theme.js"></script><script src="assetsDash/js/jquery.min.js"></script><script src="assetsDash/js/bootstrap.bundle.min.js"></script><script src="assetsDash/js/script.js"></script><link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /><link rel="stylesheet" href="assetsDash/bootstrap/css/bootstrap.min.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap" /><link rel="stylesheet" href="assetsDash/fonts/fontawesome-all.min.css" /><link rel="stylesheet" href="assetsDash/fonts/ionicons.min.css" /><link rel="stylesheet" href="assetsDash/fonts/material-icons.min.css" /><link rel="stylesheet" href="assetsDash/fonts/typicons.min.css" /><link rel="stylesheet" href="assetsDash/css/card-3-column-animation-shadows-images.css" /><link rel="stylesheet" href="assetsDash/css/animate.min.css" /><link rel="stylesheet" href="assetsDash/css/style.css" /><link rel="stylesheet" href="assetsDash/css/News-Cards.css" /><link rel="stylesheet" href="assetsDash/css/Tabbed-Panel-tabbed-panel.css" />
                <div id="wrapper">
@@ -301,6 +408,7 @@ function Mailing() {
                                         <th>Sujet</th>
                                         <th>Corps</th>
                                         <th>Date prévue</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -310,6 +418,8 @@ function Mailing() {
                                     <td>{email.subject}</td>
                                     <td><a href='#bodyModal' data-bs-toggle="modal" onClick={() => setSelectedEmail(email.body)}>Voir le corps</a></td>
                                     <td>{formatDate(email.scheduleTime)}</td>
+                                    <td><a onClick={()=>{setEmailId(email._id) }} href="#confirmModal" data-bs-toggle="modal"><i className='far fa-trash-alt' style={{fontSize:"16px" ,color:"rgb(241, 92, 87)",marginLeft:"auto",marginRight:"10px"}} /></a></td>
+
                                 </tr>                  
                                 ))}
 
@@ -403,13 +513,28 @@ function Mailing() {
           {selectedEmail && (
           <div id="bodyModal" className="modal fade" role="dialog" tabIndex={-1}>
             <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-body"dangerouslySetInnerHTML={{ __html: selectedEmail }} />
+              <div className="modal-content" style={{ maxHeight: '80vh',overflowY:"scroll"}}>
+                <div className="modal-body" dangerouslySetInnerHTML={{ __html: selectedEmail }} />
 
               </div>
             </div>
           </div>
           )}
+                   <div id="confirmModal" className="modal fade" role="dialog" tabIndex={-1}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <form>
+                <div className="modal-header">
+                  <h6>Êtes-vous sûr de vouloir supprimer le mail ?</h6><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
+                </div>
+                <div className="modal-footer">
+                <button className="btn btn-light" type="button" data-bs-dismiss="modal">Annuler</button>
+                <button onClick={()=>{deleteEmail(emailId)}} className="btn btn-primary">Confirmer</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
                     <FooterDashboard />
 
                     </div>

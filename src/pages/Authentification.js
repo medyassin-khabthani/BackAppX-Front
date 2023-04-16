@@ -28,6 +28,11 @@ class Authentification extends Component {
             alertColor:"alert-danger",
             alertText:"",
             projectId:"",
+            image:null,
+            imageUrl:"",
+            showImage:false,
+            imageEdit:null,
+            imageUrlEdit:""
                 }
         this.handleSubmit=this.handleSubmit.bind(this);
         this.handleSearch=this.handleSearch.bind(this);
@@ -38,17 +43,11 @@ class Authentification extends Component {
       }
 
       componentDidMount(){
-        this.setState({projectId:window.localStorage.getItem("projectId")})
-        fetch("http://127.0.0.1:9092/client/client")
+        let reference = window.localStorage.getItem("reference")
+        fetch(`http://127.0.0.1:9092/client/client/${reference}`)
         .then((res) => res.json())
         .then((data) => {
-
         this.setState({clients:data,clientsFiltered:data});
-
-
-        
-            
-
           })
         
       }
@@ -73,7 +72,7 @@ class Authentification extends Component {
 
         this.setState({ searchQuery: e.target.value,clientsFiltered:this.state.clients }, () => {
           const filteredData = this.state.clientsFiltered.filter((client) =>
-            client.name.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || client.email.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || client.phoneNumber.toString().includes(this.state.searchQuery) || client.reference.includes(this.state.searchQuery) || client.createdAt.toString().includes(this.state.searchQuery)
+            client.name.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || client.email.toLowerCase().includes(this.state.searchQuery.toLowerCase()) || client.phoneNumber.toString().includes(this.state.searchQuery) || client.createdAt.toString().includes(this.state.searchQuery)
           );
 
             this.setState({ clientsFiltered: filteredData });
@@ -139,6 +138,9 @@ class Authentification extends Component {
         .then((data) => {
           console.log(data?.user,"client updated")
           if (data?.status == "updated"){
+            if (this.state.image!=null){
+              this.uploadImage(clientIdEdit)
+            }
             this.setState({alertText:"Client modifié avec succées.",showAlert:true,alertColor:"alert-success"})
             setTimeout(() => {
               window.location.href="./authentification"
@@ -232,11 +234,41 @@ class Authentification extends Component {
     
       }
 
+      handleImageUpload = e => {
+        this.setState({image:e.target.files[0]})
     
+        console.log(this.state.image)
+    
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({imageUrl:reader.result})
+        };
+    
+        reader.readAsDataURL(e.target.files[0]);
+        this.setState({showImage:true})
+      };
+
+      uploadImage(id){
+        const{image,imageUrl}= this.state;
+        const formData = new FormData();
+        formData.append('image', image);
+        
+          fetch(`http://127.0.0.1:9092/client/uploadPhotoClient/${id}`, {
+            method: 'PUT',
+            body: formData
+          })
+          .then((res) => res.json())
+          .then((data) => {
+          });
+      }
+
+
       handleSubmit(e){
         e.preventDefault();
       const {name,familyName,email,phoneNumber,password,projectId}=this.state;   
-      let reference = projectId;
+      let reference = window.localStorage.getItem("reference");
+
+
         if (this.validate()){
 
           fetch("http://127.0.0.1:9092/client/client",{
@@ -260,7 +292,12 @@ class Authentification extends Component {
           .then((data) => {
             console.log(data?.user,"userRegister")
             if (data?.status == "created"){
-    
+
+              if (this.state.image!=null){
+                this.uploadImage(data?.newClient._id)
+              }
+              
+              
                 window.location.href="./authentification"
             }
           })
@@ -288,7 +325,7 @@ class Authentification extends Component {
       }
       
     render() {
-        const{clients,clientId,showAlert,alertColor,alertText,clientIdEdit,nameEdit,familyNameEdit,emailEdit,phoneNumberEdit} = this.state;
+        const{clients,clientId,showAlert,alertColor,alertText,clientIdEdit,nameEdit,familyNameEdit,emailEdit,phoneNumberEdit,showImage,imageUrl,imageEdit,imageUrlEdit} = this.state;
         return (
             <><script src="assetsDash/bootstrap/js/bootstrap.min.js"></script><script src="assetsDash/js/chart.min.js"></script><script src="assetsDash/js/bs-init.js"></script><script src="assetsDash/js/theme.js"></script><script src="assetsDash/js/jquery.min.js"></script><script src="assetsDash/js/bootstrap.bundle.min.js"></script><script src="assetsDash/js/script.js"></script><link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /><link rel="stylesheet" href="assetsDash/bootstrap/css/bootstrap.min.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap" /><link rel="stylesheet" href="assetsDash/fonts/fontawesome-all.min.css" /><link rel="stylesheet" href="assetsDash/fonts/ionicons.min.css" /><link rel="stylesheet" href="assetsDash/fonts/material-icons.min.css" /><link rel="stylesheet" href="assetsDash/fonts/typicons.min.css" /><link rel="stylesheet" href="assetsDash/css/card-3-column-animation-shadows-images.css" /><link rel="stylesheet" href="assetsDash/css/animate.min.css" /><link rel="stylesheet" href="assetsDash/css/style.css" /><link rel="stylesheet" href="assetsDash/css/News-Cards.css" /><link rel="stylesheet" href="assetsDash/css/Tabbed-Panel-tabbed-panel.css" />
             <div id="wrapper">
@@ -320,7 +357,7 @@ class Authentification extends Component {
                                   />
                                   <label className="form-label"></label></div>
                             </div>
-                            <div className="col"> <a href="#myModal"  data-bs-toggle="modal" style={{textDecoration: 'none', float:'right'}}><button className="btn" type="button" style={{ background: 'rgb(241, 92, 87)',color:'white', padding: '6px 12px', primary: '#00a0c4', bordercolor: '#00a0c4', paddingleft: '15px', marginleft: '-3px', paddingtop: '3px' }}>Add User</button></a></div>
+                            <div className="col"> <a href="#myModal"  data-bs-toggle="modal" style={{textDecoration: 'none', float:'right'}}><button className="btn" type="button" style={{ background: 'rgb(241, 92, 87)',color:'white', padding: '6px 12px', primary: '#00a0c4', bordercolor: '#00a0c4', paddingleft: '15px', marginleft: '-3px', paddingtop: '3px' }}>Ajouter un utilisateur</button></a></div>
                         </div>
                         <div className="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                             <table className="table my-0" id="dataTable">
@@ -330,7 +367,6 @@ class Authentification extends Component {
                                         <th>Email</th>
                                         <th>Phone Number</th>
                                         <th>Created at</th>
-                                        <th>Reference</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -338,16 +374,15 @@ class Authentification extends Component {
                                 {this.state.clientsFiltered.reverse().map((client) => (
 
                                     <tr key={client._id}>
-                                        <td><div className='d-flex'><img className="rounded-circle" width="30" height="30" style={{margin:"0 10px 0 0 "}} src="assetsDash/img/avatars/avatar1.jpeg" alt="avatar" /><span>{client.fullName}</span></div></td>
+                                        <td><div className='d-flex'><img className="rounded-circle" width="30" height="30" style={{margin:"0 10px 0 0 "}} src={client.image} alt="avatar" /><span>{client.fullName}</span></div></td>
                                         <td>{client.email}</td>
                                         <td>{client.phoneNumber}</td>
                                         <td>{this.formatDate(client.createdAt)}</td>
-                                        <td>{client.reference}</td>
                                         <td>                
                                           <div className="dropdown show" style={{marginLeft:"auto"}}>
                                         <a className="" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className='fa fa-ellipsis-v' style={{fontSize:"16px" ,color:"#858796",marginLeft:"auto",marginRight:"10px"}} /></a>
                                         <div className="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-                                          <a className="dropdown-item" onClick={()=>{this.setState({clientIdEdit:client._id,nameEdit:client.name,familyNameEdit:client.familyName,emailEdit:client.email,phoneNumberEdit:client.phoneNumber})}} href="#editModal" data-bs-toggle="modal" >Modifier</a>
+                                          <a className="dropdown-item" onClick={()=>{this.setState({clientIdEdit:client._id,nameEdit:client.name,familyNameEdit:client.familyName,emailEdit:client.email,phoneNumberEdit:client.phoneNumber,imageUrlEdit:client.image})}} href="#editModal" data-bs-toggle="modal" >Modifier</a>
                                           <a className="dropdown-item" onClick={()=>{this.setState({clientId:client._id}) }} href="#confirmModal" data-bs-toggle="modal">Supprimer</a>
                                         </div>
                                       </div> 
@@ -411,6 +446,14 @@ class Authentification extends Component {
                     <button type="button" className="btn-close" onClick={() => this.setState({showAlert:false})}></button>
                   </div>
                       )}
+                  <div className="avatar">
+                    <div className="center my-3">  
+                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />:<img className='mb-2' src='https://www.gravatar.com/avatar/1234566?size=200&d=mm' style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                  </div>
+                  <div className='center my-3'>
+                  <input className="form-control d-inline form-control" style={{width:"400px"}} type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*"/>
+                  </div>
+
                 <div className="form-floating">
                   <input className="form-control" id="firstName"  onChange={(e)=> this.setState({name:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '25px', paddingBottom: '12px'}}  />
                 <label className="form-label text-secondary" htmlFor="firstName">first name</label>
@@ -472,7 +515,16 @@ class Authentification extends Component {
                     {alertText}
                     <button type="button" className="btn-close" onClick={() => this.setState({showAlert:false})}></button>
                   </div>
-                      )}                <div className="form-floating">
+                      )}
+                    <div className="avatar">
+                    <div className="center my-3">  
+                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />:<img className='mb-2' src={imageUrlEdit} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                  </div>
+                  <div className='center my-3'>
+                  <input className="form-control d-inline form-control" style={{width:"400px"}} type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>
+                  </div>
+
+                      <div className="form-floating">
                       <input className="form-control" id="firstNameEdit" value={nameEdit} onChange={(e)=> this.setState({nameEdit:e.target.value})} type="text" placeholder="Email" style={{marginBottom: '20px', paddingTop: '25px', paddingBottom: '12px'}}  />
                     <label className="form-label text-secondary" htmlFor="firstNameEdit">first name</label>
                       </div>

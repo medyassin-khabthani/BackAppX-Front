@@ -20,6 +20,7 @@ class Project extends Component {
             showAlert:false,
             alertColor:"alert-danger",
             alertText:"",
+            reference:""
             
 
         }
@@ -176,7 +177,7 @@ class Project extends Component {
           .then((res) => res.json())
           .then((data) => {
               
-              this.setState({id:data?.data._id,projects:data?.data.myProject});
+              this.setState({id:data?.data._id,projects:data?.data.myProject,reference:data?.data.reference});
               console.log(this.state)
             })
         }
@@ -223,8 +224,9 @@ class Project extends Component {
           return check;
         }
 
-        goToDashboard(id){
+        goToDashboard(id,reference){
           window.localStorage.setItem("projectId",id);
+          window.localStorage.setItem("reference",reference)
           window.location.href="./dashboard"
         }
 
@@ -248,7 +250,7 @@ class Project extends Component {
           {projects.reverse().map((project) => (
             <div key={project._id} className="col col-md-4 mb-3">
               <a href="#" style={{textDecoration:"none", color:"#212529"}}>
-             <div className="card" onClick={()=>{this.goToDashboard(project._id)}} style={{borderRadius: '20px'}}>
+             <div className="card" onClick={()=>{this.goToDashboard(project._id,project.reference)}} style={{borderRadius: '20px'}}>
               <div className="card-body" style={{boxShadow: '0px 2px 20px rgba(33,37,41,0.52)', height: '220px', borderRadius: '20px'}}>
                 <div style={{height:"80px",borderTopLeftRadius:'20px',borderTopRightRadius:"20px",background:`${project.bgColor}`,margin:"-16px -16px 0 -16px", padding:"16px 16px 0 16px "}}>
                 <div className='d-flex'>
