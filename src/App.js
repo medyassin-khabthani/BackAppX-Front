@@ -7,6 +7,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Project from './pages/Project';
+import Shop from './pages/Shop';
+import Cart from './pages/Cart';
+import Order from './pages/Order';
 import EditProfile from './pages/EditProfile';
 import ResetPassword from './pages/ResetPassword';
 import Pricing from './pages/Pricing';
@@ -20,6 +23,8 @@ import ApiGen from './pages/ApiGen';
 import Extensions from './pages/Extensions';
 import Products from './pages/Products';
 import Mailing from './pages/Mailing';
+import Produit from './pages/Produit';
+import Categorie from './pages/Categorie';
 
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
@@ -49,6 +54,12 @@ function App() {
         <Route exact path="/extensions" element={<Extensions />} />
         <Route exact path="/mailing" element={<Mailing />} />
         <Route exact path="/products" element={<Products />} />
+        <Route exact path="/produit" element={<Produit />} />
+          <Route exact path="/categorie" element={<Categorie />} />
+          <Route exact path="/shop" element={<Shop />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/order" element={<Order />} />
+        
 
 
       

@@ -38,6 +38,20 @@ class NavLeftDashboard extends Component{
                     <li className="nav-item"><a className="nav-link" href="/storage" onClick={() => this.handleClick("storage")} ><i className="typcn typcn-cloud-storage-outline" ></i><span>Storage</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/mailing" onClick={() => this.handleClick("mailing")} ><i className="material-icons" >mail</i><span>Mailing</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/apigene" onClick={() => this.handleClick("apigene")} ><i className="far fa-sun"></i><span>Api Generator</span></a></li>
+                    <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" id="storageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  >
+                <i className="fa fa-cash-register"></i><span>E-commerce</span>
+              </a>
+              <div className="dropdown-menu" aria-labelledby="storageDropdown" style={{ backgroundColor: 'transparent', border: 0, color: 'white' }}>
+                <a className="dropdown-item" href="/produit" onClick={() => this.handleClick("produit")} style={{ color: 'white' }} >Products</a>
+                <a className="dropdown-item" href="/categorie" onClick={() => this.handleClick("categorie")} style={{ color: 'white' }}>Categories</a>
+                <a className="dropdown-item" href="/shop" onClick={() => this.handleClick("shop")} style={{ color: 'white' }}>Shop</a>
+                <a className="dropdown-item" href="/cart" onClick={() => this.handleClick("cart")} style={{ color: 'white' }}>Cart</a>
+                <a className="dropdown-item" href="/order" onClick={() => this.handleClick("order")} style={{ color: 'white' }}>Order</a>
+
+
+              </div>
+            </li>
                     <li className="nav-item"> <a className="nav-link" href="/extensions" onClick={() => this.handleClick("extensions")} ><i className="typcn typcn-puzzle" style={{paddingbottom: '0px',paddingright: '0px'}}></i> <span>Extensions</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/products" onClick={() => this.handleClick("products")}><i className="material-icons" style={{margintop: '-2px',opacity: '1'}}>menu</i><span style={{paddingright: '0px',paddingtop: '0px',paddingbottom: '0px',paddingleft: '0px'}}><span style={{fontweight: 'normal !important'}}>All Poducts</span><br></br></span></a></li>
                
