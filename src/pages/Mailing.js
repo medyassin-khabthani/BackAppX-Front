@@ -99,7 +99,8 @@ function Mailing() {
       }
 
       function getEmails(){
-        fetch(`http://127.0.0.1:9092/email/`, {
+        const projectId = window.localStorage.getItem("projectId")
+        fetch(`http://127.0.0.1:9092/email/project/${projectId}`, {
             method: 'GET',
             crossDomain: true,
             headers: {

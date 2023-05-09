@@ -25,6 +25,9 @@ import Products from './pages/Products';
 import Mailing from './pages/Mailing';
 import Produit from './pages/Produit';
 import Categorie from './pages/Categorie';
+import Loading from './pages/Loading';
+import GithubRepos from './pages/GithubRepos';
+import GithubEditProfile from './pages/GithubEditProfile';
 
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
@@ -45,6 +48,8 @@ function App() {
         <Route exact path="/pricing" element={<Pricing/>}/>
         <Route exact path="/services" element={<Services/>}/>
         <Route exact path="/payment" element={<PaymentPage/>}/>
+        <Route exact path="/loading" element={<Loading />}/>
+    
         <Route path="*" element={<h1>404: Not Found</h1>}/>
 
         <Route exact path="/dashboard" element={<Dashboard />} />
@@ -59,6 +64,9 @@ function App() {
           <Route exact path="/shop" element={<Shop />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/order" element={<Order />} />
+          <Route exact path="/github-repos" element={<GithubRepos />} />
+          <Route exact path="/github-edit-profile" element={<GithubEditProfile />} />
+
         
 
 

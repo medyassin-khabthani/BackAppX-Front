@@ -19,7 +19,12 @@ class Login extends Component {
 
 
   }
-
+  github(){
+   window.open("http://localhost:9092/user/github/callback", "_self");
+  };
+  gitlab(){
+    window.open("http://localhost:9092/user/gitlab/callback", "_self");
+   };
   handleSubmit(e){
     e.preventDefault();
     const {email,password}=this.state;
@@ -54,6 +59,7 @@ class Login extends Component {
           this.setState({showAlert:true,alertText:"Aunthentifcation avec succés.Vous allez être rediriger vers la page d'accueil",alertColor:"alert-success",})
           window.localStorage.setItem("token",data?.token);
           window.localStorage.setItem("isLoggedIn",true);
+          window.localStorage.setItem("provider","backappx")
           setTimeout(() => {
             window.location.href="./project";
           }, 2000);
@@ -139,10 +145,9 @@ class Login extends Component {
               <hr style={{height: '0.5px', marginTop: '30px'}} />
               <h1 style={{fontSize: '18px', textAlign: 'center'}}>connect with Social media</h1>
               <ul className="list-inline text-center" style={{marginTop: '20px'}}>
-                <li className="list-inline-item"><a href="#"><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-facebook fa-stack-1x fa-inverse" /></span></a></li>
-                <li className="list-inline-item"><a href="#"><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-google fa-stack-1x fa-inverse" /></span></a></li>
-                <li className="list-inline-item"><a href="#" /></li>
-                <li className="list-inline-item"><a href="#" /></li>
+                <li className="list-inline-item" ><a href="#" onClick={this.github}><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" style={{color:'#f05b57'}} /><i className="fa fa-github fa-stack-1x fa-inverse" /></span></a></li>
+                <li className="list-inline-item" ><a href="#" onClick={this.gitlab}><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" style={{color:'#f05b57'}} /><i className="fa fa-gitlab fa-stack-1x fa-inverse" /></span></a></li>
+
               </ul>
             </form>
           </div>

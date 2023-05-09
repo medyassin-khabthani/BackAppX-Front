@@ -18,7 +18,9 @@ const Storage = () => {
     fetch(`http://127.0.0.1:9092/project/images/${projectId}`)
       .then((res) => res.json())
       .then((data) => {
-        setFiles(data?.images);
+        if (data?.status == "ok"){
+          setFiles(data?.images);
+        }
       });
   }, []);
 
@@ -105,6 +107,7 @@ const Storage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  
                                     {files.reverse().map((file) => (
 
                                     <tr key={file._id}>

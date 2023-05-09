@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-class EditProfile extends Component {
+class GithubEditProfile extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -23,8 +23,7 @@ class EditProfile extends Component {
       showImage:false
     }
     this.handleUpdate=this.handleUpdate.bind(this);
-    this.deleteAccount=this.deleteAccount.bind(this);
-    this.handleUpload=this.handleUpload.bind(this);
+
 
 
   }
@@ -93,16 +92,16 @@ class EditProfile extends Component {
     })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data)
       console.log(data.user,"user updated")
       if (data?.status == "updated"){
-        console.log(data.user)
         this.setState({userData:data.user})
+
         this.setState({alertText:"Profil modifié avec succées.",showAlert:true,alertColor:"alert-success"})
         window.localStorage.removeItem('token');
-
-        window.localStorage.setItem("token",data?.token)
+        window.localStorage.setItem("token",data.token)
         setTimeout(() => {
-          window.location.href="./edit-profile"
+          window.location.href="./"
         }, 2000);
        }
       
@@ -112,64 +111,6 @@ class EditProfile extends Component {
   }
 
 
-
-  deleteAccount(){
-    const { id }=this.state;
-
-    fetch(`http://127.0.0.1:9092/user/delete/${id}`,{
-      method:"DELETE",
-      crossDomain:true,
-      headers:{
-        "Content-Type":"application/json",
-        Accept:"application/json",
-        "Access-Control-Allow-Origin":"*",
-      }
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data?.status == "deleted"){
-        window.location.href="./"
-        window.localStorage.clear()
-      }
-    })
-  }
-
-   handleImageUpload = e => {
-
-    this.setState({image:e.target.files[0]})
-
-    console.log(this.state.image)
-
-    const reader = new FileReader();
-    reader.onload = () => {
-        this.setState({imageUrl:reader.result})
-    };
-
-    reader.readAsDataURL(e.target.files[0]);
-    this.setState({showImage:true});    
-  };
-
-  handleUpload(e){
-    e.preventDefault();
-    const{image,id,imageUrl}= this.state;
-    const formData = new FormData();
-    formData.append('file', image);
-
-    console.log(id);
-      fetch(`http://127.0.0.1:9092/user/upload/${id}`, {
-        method: 'PUT',
-        body: formData
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.status == "ok"){
-          this.setState({showAlert:true,alertColor:'alert-success',alertText:'Image ajouté avec succés',buttonColor:"#1C7BA5",buttonText:"Upload image"})
-          setTimeout(() => {
-            window.location.href="./edit-profile"
-          }, 2000);
-        } 
-      });
-  }
   validate(){
     const {name,email,password,phoneNumber,passwordCheck} = this.state;
 
@@ -199,17 +140,12 @@ class EditProfile extends Component {
     return check;
 
   }
-     handleClick = () => {
-      const {image}= this.state;
-      if (!image.isNull)
-      this.setState({buttonColor:'#176182',buttonText:'Veuillez patienter...'});
-    };
+
 
     render() {
       const {id,name,phoneNumber,email,userImage,imageUrl,buttonColor,buttonText,showAlert,alertText,alertColor,showImage} = this.state;
       return (
             <div>
-            <Header/>
 
             <div className="container profile profile-view" id="profile">
               {showAlert && (
@@ -225,16 +161,8 @@ class EditProfile extends Component {
             </div> 
 
               <div className="row profile-row">
-                <div className="col-md-4 relative">
-                  <form onSubmit={this.handleUpload}>
-                  <div className="avatar">
-                    <div className="center">  
-                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} /> : <img className='mb-2' src={userImage} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} /> }</div>
-                  </div><input className="form-control form-control" type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>
-                  <button className='btn btn-primary w-100 mt-3' style={{background: buttonColor, boxShadow: '0px 0px 7px #1c7ba5', border:"none"}} onClick={this.handleClick} type="submit">{buttonText}</button>
-                  </form>
-                </div>
-                <div className="col-md-8">
+
+                <div className="col-md-12">
                 <form onSubmit={this.handleUpdate} className="h-100"> 
                   <h1>Modifier mon profil</h1>
                   <hr />
@@ -253,31 +181,12 @@ class EditProfile extends Component {
                   </form>
 
                 </div>
-                <hr className='mt-4'/>
-                <div className="col">
-                  <p>Lorem ipsum det alore ist.</p><button className="btn btn-primary"  type="button" style={{width: '200px', background: '#f05b57', boxShadow: '0px 0px 4px #f05b57',border:"none"}}> <a href="#myModal" data-bs-toggle="modal" style={{color: 'white',textDecoration:"none"}}>Delete my account</a></button>
-                </div>
+
               </div>
           </div>
 
-          <div id="myModal" className="modal fade" role="dialog" tabIndex={-1}>
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <form>
-                <div className="modal-header">
-                  <h6>Êtes-vous sûr de vouloir supprimer votre compte ?</h6><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
-                </div>
-                <div className="modal-footer">
-                <button className="btn btn-light" type="button" data-bs-dismiss="modal">Annuler</button>
-                <button className="btn btn-primary" onClick={this.deleteAccount}>Confirmer</button>
-                </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <Footer/>
           </div>
         )
     }
 }
-export default EditProfile;
+export default GithubEditProfile;

@@ -126,9 +126,9 @@ const HeaderDashbaord = () => {
                             
                             <div className="d-none d-sm-block topbar-divider"></div>
                             <li className="nav-item dropdown no-arrow">
-                                <div className="nav-item dropdown no-arrow"><a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><span className="d-none d-lg-inline me-2 text-gray-600 small">{userData.name}</span><img className="border rounded-circle img-profile" src={`http://localhost:9092/user/image/${userData._id}/${userData.image}`} alt="avatar" /></a>
+                                <div className="nav-item dropdown no-arrow"><a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="index.html"><span className="d-none d-lg-inline me-2 text-gray-600 small">{userData.name}</span><img className="border rounded-circle img-profile" src={userData.image} alt="avatar" /></a>
                                     <div className="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a className="dropdown-item" href="index.html"><i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a className="dropdown-item" href="/"><i className="fas fa-globe fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;BackAppx</a><a className="dropdown-item" href="https://back-app-x-documentation.vercel.app"><i className="fas fa-hashtag fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Docs</a>
-                                        <div className="dropdown-divider"></div><a className="dropdown-item" href="index.html"><i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                        <div className="dropdown-divider"></div><a className="dropdown-item" onClick={disconnect}><i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>

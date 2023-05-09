@@ -201,7 +201,7 @@ function Home() {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState("");
   const [t , i18n] = useTranslation();
-
+  const codeText = "BackAppX.authenticate() {\n if (this.username === admin && this.password === password) {\n  return true;\n } else {\n  return false;\n } \n }\n}"
   useEffect(() => {
     fetch("http://127.0.0.1:9092/user/userData",{
       method:"POST",
@@ -332,7 +332,7 @@ function Home() {
         <div className="col" style={{paddingLeft: 0}}>
           <div className="border-1 tab-content">
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-auth" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>first</p>
+              <p>{codeText}</p>
             </div>
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-api" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
               <p>second</p>

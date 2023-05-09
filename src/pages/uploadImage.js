@@ -54,9 +54,9 @@ class uploadImage extends Component {
 
     });
       console.log("data:", data)
-      if (data?.data.image){
+/*       if (data?.data.image){
         this.setState({imageUrl: "http://localhost:9092/user/image/avatar/avatar.png",showImage:true})
-      }
+      } */
     })
   }
 
@@ -120,7 +120,7 @@ class uploadImage extends Component {
                   <form onSubmit={this.handleUpload}>
                   <div className="avatar">
                     <div className="center my-3">  
-                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />:<img className='mb-2' src={`http://localhost:9092/user/image/${id}/${userImage}`} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
+                    {showImage ? <img className='mb-2' src={imageUrl} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />:<img className='mb-2' src={userImage} style={{objectFit :"coverd",height: "200px",width: "200px", borderRadius:"50%"}} />}</div>
                   </div>
                   <div className='center my-3'>
                   <input className="form-control d-inline form-control" style={{width:"400px"}} type="file" onChange={this.handleImageUpload} name="avatar-file" accept="image/*" required/>
