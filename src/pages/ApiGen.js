@@ -92,36 +92,76 @@ function ApiGenerator() {
                 setAlertText(data);
             });
     }
-    const pushApi = (e) =>{
-        e.preventDefault();
+    // const pushApi = (e) =>{
+    //     e.preventDefault();
 
         
-        const repository = selectedOptions.value;
-        console.log(repository,username,token,userData._id)
-        fetch("http://127.0.0.1:9092/apiGenerator/push",{
-            method:"POST",
-            crossDomain:true,
-            headers:{
-            "Content-Type":"application/json",
-            Accept:"application/json",
-            "Access-Control-Allow-Origin":"*",
-        },
-            body: JSON.stringify({
-            username:username,
-            repository:repository,
-            token:token,
-            userId:userData._id
-        }),
-        })
-            .then((res) => {
-                res.json()
+    //     const repository = selectedOptions.value;
+    //     console.log(repository,username,token,userData._id)
+    //     fetch("http://127.0.0.1:9092/apiGenerator/push",{
+    //         method:"POST",
+    //         crossDomain:true,
+    //         headers:{
+    //         "Content-Type":"application/json",
+    //         Accept:"application/json",
+    //         "Access-Control-Allow-Origin":"*",
+    //     },
+    //         body: JSON.stringify({
+    //         username:username,
+    //         repository:repository,
+    //         token:token,
+    //         user_id:userData._id
+    //     }),
+    //     })
+    //         .then((res) => {
+    //             res.json()
 
-            })
-            .then((data) => {
-                setAlertText(data);
-                alert(data);
-            });
+    //         })
+    //         .then((data) => {
+    //             setAlertText(data);
+    //             alert(data?.message);
+    //             console.log(data)
+
+    //         });
+    // }
+    
+     const pushApi = (e) =>{
+         e.preventDefault();
+
+        
+         const repository = selectedOptions.value;
+    fetch("http://127.0.0.1:9092/apiGenerator/push",{
+    method:"POST",
+    crossDomain:true,
+    headers:{
+        "Content-Type":"application/json",
+        Accept:"application/json",
+        "Access-Control-Allow-Origin":"*",
+    },
+    body: JSON.stringify({
+        username:username,
+        repository:repository,
+        token:token,
+        user_id:userData._id
+    }),
+})
+.then((res) => {
+    if (!res.ok) {
+        throw new Error(res.statusText);
     }
+    return res.json();
+})
+.then((data) => {
+    setAlertText(data);
+    alert(data?.message);
+    console.log(data);
+})
+.catch((error) => {
+    console.error(error);
+    alert('Error executing API commands: ' + error.message);
+});
+     }
+
     const restart = (e) =>{
         e.preventDefault();
 

@@ -19,6 +19,7 @@ class Products extends Component {
             price: "",
             image: null,
             id: "",
+            categoryId: "",
             idProductEdit: "",
             nameEdit: "",
             categoryEdit: "",
@@ -75,9 +76,12 @@ class Products extends Component {
         this.setState({ image: event.target.files[0] });
     }
 
-    handleOptionSelect = (option) => {
-        console.log('Selected category:', option);
-        this.setState({ selectedOption: option });
+    handleOptionSelect = (name, categoryId) => {
+        console.log('Selected category:', name, categoryId);
+        this.setState({
+            selectedOption: name,
+            categoryId: categoryId
+        });
     };
 
     toggleDropdown = () => {
@@ -135,12 +139,12 @@ class Products extends Component {
         event.preventDefault();
 
         const { name, description, image } = this.state;
+        const projectId = localStorage.getItem('projectId');
 
         if (!name || !description || !image) {
             this.setState({ errorMessage: 'Please enter a name, description, and image.' });
             return;
         }
-        { console.log(this.state.name, this.state.description, this.state.price, this.state.reference, this.state.quantity, this.state.category, this.state.image) }
 
         const formData = new FormData();
         formData.append('name', this.state.name);
@@ -148,10 +152,11 @@ class Products extends Component {
         formData.append('reference', this.state.reference);
         formData.append('quantity', this.state.quantity);
         formData.append('description', this.state.description);
-        formData.append('category', this.state.selectedOption);
+        formData.append('category', this.state.categoryId);
+        console.log(this.state.categoryId)
         formData.append('image', this.state.image);
+        formData.append('project', projectId)
         console.log(formData)
-        console.log(this.state.image)
 
         try {
             const response = await fetch('http://127.0.0.1:9092/product/product', {
@@ -228,7 +233,8 @@ class Products extends Component {
 
 
     componentDidMount() {
-        fetch('http://127.0.0.1:9092/product/getallproduct', {
+        const projectId = localStorage.getItem('projectId');
+        fetch(`http://127.0.0.1:9092/product/getAllProductsByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
@@ -239,12 +245,11 @@ class Products extends Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({ products: data });
-                console.log(data);
+                this.setState({ products: data.products });
             })
             .catch(error => console.error(error));
 
-        fetch(`http://127.0.0.1:9092/category/allCategories`, {
+        fetch(`http://127.0.0.1:9092/category/getAllCategoriesByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
@@ -255,8 +260,7 @@ class Products extends Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({ categories: data });
-                console.log(data);
+                this.setState({ categories: data.categories });
             })
             .catch(error => console.error(error));
     }
@@ -272,10 +276,15 @@ class Products extends Component {
         const { selectOption } = this.state;
 
         const { imageUrl } = this.state;
+        const productsWithCategoryNames = products.map((product) => {
+            const category = categories.find((cat) => cat._id === product.category);
+            const categoryName = category ? category.name : "";
+            return { ...product, categoryName };
+        });
 
         return (
 
-            <div id="wrapper">
+            < div id="wrapper" >
                 <NavLeftDashboard />
                 <div className="d-flex flex-column" id="content-wrapper">
                     <div id="content">
@@ -314,7 +323,7 @@ class Products extends Component {
                                                                 </button>
                                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                     {categories.map((category) => (
-                                                                        <button className="dropdown-item" key={category._id} onClick={() => this.handleOptionSelect(category.name)} type="button">
+                                                                        <button className="dropdown-item" key={category._id} onClick={() => this.handleOptionSelect(category.name, category._id)} type="button">
                                                                             {category.name}
                                                                         </button>
                                                                     ))}
@@ -341,13 +350,11 @@ class Products extends Component {
                                                     </div>
                                                     <div className="modal-body">
                                                         <input className="form-control" value={this.state.nameEdit} onChange={(e) => this.setState({ nameEdit: e.target.value })} type="text" placeholder="name" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
-                                                        {console.log(this.state.nameEdit)}
                                                         <input className="form-control" value={this.state.descriptionEdit} onChange={(e) => this.setState({ descriptionEdit: e.target.value })} placeholder="Description" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.priceEdit} onChange={(e) => this.setState({ priceEdit: e.target.value })} placeholder="Price" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.referenceEdit} onChange={(e) => this.setState({ referenceEdit: e.target.value })} placeholder="Reference" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.quantityEdit} onChange={(e) => this.setState({ quantityEdit: e.target.value })} placeholder="Quantity" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input type="file" accept="image/*" onChange={(e) => this.setState({ imageEdit: e.target.files[0] })} />
-                                                        {console.log(this.state.imageEdit)}
                                                         <div className="dropdown-container" style={{ marginBottom: "20px", paddingTop: "12px", paddingBottom: "12px", display: "flex", alignItems: "center", }}>
                                                             <span>Categories: </span>
                                                             <div className="dropdown" style={{ paddingLeft: "10px" }}>
@@ -357,7 +364,7 @@ class Products extends Component {
                                                                 </button>
                                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                     {categories.map((category) => (
-                                                                        <button className="dropdown-item" key={category._id} onClick={() => this.handleOptionSelect(category.name)} type="button">
+                                                                        <button className="dropdown-item" key={category._id} onClick={() => this.handleOptionSelect(category.name, category._id)} type="button">
                                                                             {category.name}
                                                                         </button>
                                                                     ))}
@@ -380,10 +387,9 @@ class Products extends Component {
                                             <table className="table table-striped table tablesorter" id="ipi-table">
                                                 <thead className="thead-dark">
                                                     <tr>
-                                                        {/* <th className="text-center text-bg-primary">Id</th> */}
                                                         <th className="text-center text-bg-primary">Image</th>
                                                         <th className="text-center text-bg-primary">Name</th>
-                                                        <th className="text-center text-bg-primary">Categorie</th>
+                                                        <th className="text-center text-bg-primary">Category</th>
                                                         <th className="text-center text-bg-primary">Description</th>
                                                         <th className="text-center text-bg-primary">Price</th>
                                                         <th className="text-center text-bg-primary">Quantity</th>
@@ -391,27 +397,31 @@ class Products extends Component {
                                                         <th className="text-center text-bg-primary filter-false sorter-false">Action</th>
                                                     </tr>
                                                 </thead>
-                                                {products.map(product => (
-                                                    <tbody className="text-center">
-                                                        <tr>
-                                                            {/* <td className="text-center align-middle">{product._id}</td> */}
-                                                            {/* <td className="text-center align-middle">{product.image}</td> */}
+                                                <tbody className="text-center">
+                                                    {productsWithCategoryNames.map(product => (
+                                                        <tr key={product._id}>
                                                             {product.image ? (
                                                                 <td><img className="" width="60" height="60" src={product.image.url} alt={product.name} /></td>
                                                             ) : (
                                                                 <td><img className="" width="60" height="60" src="/path/to/default/image.jpg" alt="" /></td>
                                                             )}
                                                             <td className="text-center align-middle">{product.name}</td>
-                                                            <td className="text-center align-middle">{product.category}</td>
+                                                            <td className="text-center align-middle">{product.categoryName}</td>
                                                             <td className="text-center align-middle">{product.description}</td>
                                                             <td className="text-center align-middle">{product.price} DT</td>
                                                             <td className="text-center align-middle">{product.quantity}</td>
                                                             <td className="text-center align-middle">{product.reference}</td>
-                                                            <td className="text-center align-middle" style={{ maxHeight: '60px', height: '60px' }}><a className="btn btnMaterial btn-flat success semicircle" onClick={() => this.handleEditProduct(product)} role="button" href="#editproduct" data-bs-toggle="modal" ><i className="fas fa-pen" style={{ color: '#4e73df' }} /></a><a className="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button" style={{ marginLeft: '5px' }} data-bs-toggle="modal" onClick={() => this.handleDeleteProduct(product._id)} data-bs-target="#delete-modal" href="#"><i className="fas fa-trash btnNoBorders" style={{ color: '#DC3545' }} /></a></td>
+                                                            <td className="text-center align-middle" style={{ maxHeight: '60px', height: '60px' }}>
+                                                                <a className="btn btnMaterial btn-flat success semicircle" onClick={() => this.handleEditProduct(product)} role="button" href="#editproduct" data-bs-toggle="modal">
+                                                                    <i className="fas fa-pen" style={{ color: '#4e73df' }} />
+                                                                </a>
+                                                                <a className="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button" style={{ marginLeft: '5px' }} data-bs-toggle="modal" onClick={() => this.handleDeleteProduct(product._id)} data-bs-target="#delete-modal" href="#">
+                                                                    <i className="fas fa-trash btnNoBorders" style={{ color: '#DC3545' }} />
+                                                                </a>
+                                                            </td>
                                                         </tr>
-                                                    </tbody>
-
-                                                ))}
+                                                    ))}
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>

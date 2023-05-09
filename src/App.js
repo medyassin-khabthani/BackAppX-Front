@@ -28,7 +28,7 @@ import Categorie from './pages/Categorie';
 import Loading from './pages/Loading';
 import GithubRepos from './pages/GithubRepos';
 import GithubEditProfile from './pages/GithubEditProfile';
-
+import Ticket from './pages/Ticket';
 {/* <Route exact path='/' component={Home}/> */}
 function App() {
 
@@ -64,6 +64,7 @@ function App() {
           <Route exact path="/shop" element={<Shop />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/order" element={<Order />} />
+          <Route exact path="/ticket" element={<Ticket />} />
           <Route exact path="/github-repos" element={<GithubRepos />} />
           <Route exact path="/github-edit-profile" element={<GithubEditProfile />} />
 

@@ -9,6 +9,7 @@ class Cart extends Component {
         super(props);
         this.state = {
             cartItems: [],
+            userData:""
 
         };
         this.handleRemoveFromCart = this.handleRemoveFromCart.bind(this);
@@ -17,6 +18,30 @@ class Cart extends Component {
     }
 
     componentDidMount() {
+        
+        
+        
+            fetch('http://127.0.0.1:9092/user/userData', {
+              method: 'POST',
+              crossDomain: true,
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+              body: JSON.stringify({
+                token: window.localStorage.getItem('token'),
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                this.setState({userData:data?.data});
+                console.log(data?.data)
+              });
+        
+
+
+
         const cartItems = JSON.parse(localStorage.getItem('cartItems'));
         if (cartItems) {
             this.setState({ cartItems });
@@ -117,6 +142,9 @@ class Cart extends Component {
 
     handleOrder = async (customerName) => {
         const { cartItems } = this.state;
+        const projectId = localStorage.getItem('projectId');
+        const currentUser = this.state.userData._id
+
 
         const orderProducts = cartItems.map(item => {
             const { product, quantity } = item;
@@ -125,7 +153,7 @@ class Cart extends Component {
                 productId: product._id,
                 quantity,
                 price: product.price,
-                status: 'Pending'
+                status: 'pending'
             };
         });
 
@@ -134,7 +162,8 @@ class Cart extends Component {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    customerId: '6424632cda74a300005f02d7', // replace with actual customer ID
+                    customerId: currentUser,
+                    projectId,
                     products: orderProducts
                 })
             });

@@ -52,6 +52,9 @@ class Login extends Component {
           this.setState({showAlert:true,alertText:"Aunthentifcation avec succés.Vous allez être rediriger vers la page d'accueil",alertColor:"alert-success",})
           window.localStorage.setItem("token",data?.token);
           window.localStorage.setItem("isLoggedIn",true);
+          console.log(data?.user);
+          console.log(JSON.stringify(data?.user))
+          window.localStorage.setItem("currentUser", JSON.stringify(data?.user));
           setTimeout(() => {
             window.location.href="./upload-image";
           }, 2000);

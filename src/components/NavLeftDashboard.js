@@ -53,6 +53,7 @@ class NavLeftDashboard extends Component{
               </div>
             </li>
                     <li className="nav-item"> <a className="nav-link" href="/extensions" onClick={() => this.handleClick("extensions")} ><i className="typcn typcn-puzzle" style={{paddingbottom: '0px',paddingright: '0px'}}></i> <span>Extensions</span></a></li>
+                    <li className="nav-item"> <a className="nav-link" href="/ticket" onClick={() => this.handleClick("ticket")} ><i className="typcn typcn-info" style={{ paddingbottom: '0px', paddingright: '0px' }}></i> <span>Reclamation</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/github-repos" onClick={() => this.handleClick("products")}><i className="typcn typcn-social-github-circular" style={{margintop: '-2px',opacity: '1'}}></i><span style={{paddingright: '0px',paddingtop: '0px',paddingbottom: '0px',paddingleft: '0px'}}><span style={{fontweight: 'normal !important'}}>Github Repositories</span><br></br></span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/products" onClick={() => this.handleClick("products")}><i className="material-icons" style={{margintop: '-2px',opacity: '1'}}>menu</i><span style={{paddingright: '0px',paddingtop: '0px',paddingbottom: '0px',paddingleft: '0px'}}><span style={{fontweight: 'normal !important'}}>All Poducts</span><br></br></span></a></li>
 

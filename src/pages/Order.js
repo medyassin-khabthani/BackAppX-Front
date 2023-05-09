@@ -21,11 +21,14 @@ class Order extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
+        const projectId = localStorage.getItem('projectId');
 
-        fetch('http://127.0.0.1:9092/order/orders')
+        fetch(`http://127.0.0.1:9092/order/getAllOrdersByProject/${projectId}`)
             .then(response => response.json())
             .then(data => {
                 this.setState({ orders: data.orders, filteredOrders: data.orders });
+                console.log(data.orders)
+
             })
             .catch(error => {
                 this.setState({ error });
@@ -64,18 +67,26 @@ class Order extends Component {
     render() {
 
         const { orders } = this.state;
+
         const thirtyDaysAgo = new Date();
 
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        
-        console.log(orders);
-        const totalRevenue = orders
-            .filter(order => new Date(order.createdAt) >= thirtyDaysAgo)
-            .reduce((acc, order) => {
-                return acc + order.products.reduce((acc2, product) => {
-                    return acc2 + product.product.price * product.quantity;
-                }, 0);
-            }, 0);
+
+
+
+        const totalRevenue = this.state.orders
+            ? this.state.orders
+                .filter(order => new Date(order.createdAt) >= thirtyDaysAgo)
+                .reduce((acc, order) => {
+                    return acc + order.products.reduce((acc2, product) => {
+                        if (!product.price) {
+                            return acc2; // skip this iteration
+                        }
+                        return acc2 + product.price * product.quantity;
+                    }, 0);
+                }, 0)
+            : 0;
+
 
         const numOrders = this.state.orders.length;
         const averageOrderValue = numOrders > 0 ? totalRevenue / numOrders : 0;
@@ -135,7 +146,6 @@ class Order extends Component {
 
                         <div className="container mt-4">
                             <h1>Orders</h1>
-                            {console.log(orders)}
                             <div style={{ fontFamily: 'Arial, sans-serif' }}>
                                 <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
                                     <input style={{ textAlign: 'left', width: '250px' }} type="text" value={this.state.searchValue} onChange={this.handleSearchChange} placeholder="Search" />
@@ -148,7 +158,6 @@ class Order extends Component {
                                             <th style={{ padding: '8px', textAlign: 'left', backgroundColor: '#00a0c4', color: 'white', borderBottom: '1px solid #ddd' }}>Products</th>
                                             <th style={{ padding: '8px', textAlign: 'left', backgroundColor: '#00a0c4', color: 'white', borderBottom: '1px solid #ddd' }}>Quantite</th>
                                             <th style={{ padding: '8px', textAlign: 'left', backgroundColor: '#00a0c4', color: 'white', borderBottom: '1px solid #ddd' }}>Price</th>
-                                            <th style={{ padding: '8px', textAlign: 'left', backgroundColor: '#00a0c4', color: 'white', borderBottom: '1px solid #ddd' }}>Status</th>
                                             <th style={{ padding: '8px', textAlign: 'left', backgroundColor: '#00a0c4', color: 'white', borderBottom: '1px solid #ddd' }}>
                                                 <button onClick={this.sortByTotalPrice} style={{ backgroundColor: 'rgb(241, 92, 87)', color: 'white', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }}>Total Price {sortBy === 'totalPrice' && (sortAsc ? '▲' : '▼')}</button>
                                             </th>
@@ -165,8 +174,8 @@ class Order extends Component {
                                                 <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
                                                     <ul style={{ listStyleType: 'none', margin: '0', padding: '0' }}>
                                                         {order.products.map((product) => (
-                                                            <li key={product.product._id} style={{ margin: '4px 0' }}>
-                                                                {product.product.name}
+                                                            <li key={product._id} style={{ margin: '4px 0' }}>
+                                                                {product.name}
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -174,7 +183,7 @@ class Order extends Component {
                                                 <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
                                                     <ul style={{ listStyleType: 'none', margin: '0', padding: '0' }}>
                                                         {order.products.map((product) => (
-                                                            <li key={product.product._id} style={{ margin: '4px 0' }}>
+                                                            <li key={product._id} style={{ margin: '4px 0' }}>
                                                                 {product.quantity}
                                                             </li>
                                                         ))}
@@ -183,16 +192,14 @@ class Order extends Component {
                                                 <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
                                                     <ul style={{ listStyleType: 'none', margin: '0', padding: '0' }}>
                                                         {order.products.map((product) => (
-                                                            <li key={product.product._id} style={{ margin: '4px 0' }}>
-                                                                {product.product.price}
+                                                            <li key={product._id} style={{ margin: '4px 0' }}>
+                                                                {product.price}
                                                             </li>
                                                         ))}
                                                     </ul>
                                                 </td>
-                                                <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{order.status}</td>
                                                 <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{order.totalPrice}</td>
                                                 <td style={{ padding: '8px', borderBottom: '1px solid #ddd', textAlign: 'left' }}>{new Date(order.createdAt).toLocaleString()}</td>
-
                                             </tr>
                                         ))}
                                     </tbody>
