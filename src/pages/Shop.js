@@ -18,7 +18,8 @@ class Shop extends Component {
 
 
     componentDidMount() {
-        fetch('http://127.0.0.1:9092/product/getallproduct', {
+        const projectId = localStorage.getItem('projectId');
+        fetch(`http://127.0.0.1:9092/product/getAllProductsByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
@@ -29,7 +30,7 @@ class Shop extends Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({ products: data });
+                this.setState({ products: data.products });
                 console.log(data);
             })
             .catch(error => console.error(error));

@@ -69,11 +69,15 @@ class Categories extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+
+        const projectId = localStorage.getItem('projectId');
+
         const formData = new FormData();
         formData.append('name', this.state.name);
         formData.append('description', this.state.description);
         formData.append('reference', this.state.reference);
         formData.append('image', this.state.image);
+        formData.append('project', projectId)
 
         try {
             const response = await fetch('http://127.0.0.1:9092/category/category', {
@@ -135,7 +139,8 @@ class Categories extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://127.0.0.1:9092/category/allCategories`, {
+        const projectId = localStorage.getItem('projectId');
+        fetch(`http://127.0.0.1:9092/category/getAllCategoriesByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
@@ -146,8 +151,8 @@ class Categories extends Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({ categories: data });
-                console.log(data);
+                this.setState({ categories: data.categories });
+                console.log(data.categories);
             })
             .catch(error => console.error(error));
     }
@@ -209,21 +214,21 @@ class Categories extends Component {
                                             <div className="modal-content">
                                                 <form onSubmit={this.handleUpdate}>
                                                     <div className="modal-header">
-                                                        <h4 >Edit Product</h4><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
+                                                        <h4 >Edit Categorie</h4><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
                                                     </div>
                                                     <div className="modal-body">
                                                         <input className="form-control" value={this.state.nameEdit} onChange={(e) => this.setState({ nameEdit: e.target.value })} type="text" placeholder="name" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.priceEdit} onChange={(e) => this.setState({ priceEdit: e.target.value })} placeholder="price" style={{ paddingTop: '12px', paddingBottom: '12px' }} defaultValue={""} />
-                                                        <div class="dropdown-container" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px', display: 'flex', alignItems: 'center' }} >
+                                                        <div className="dropdown-container" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px', display: 'flex', alignItems: 'center' }} >
                                                             <span>Categories : </span>
-                                                            <div class="dropdown" style={{ paddingLeft: '10px' }} >
-                                                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" onClick={this.toggleDropdown} data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ paddingLeft: '10px', color: 'White' }}>
+                                                            <div className="dropdown" style={{ paddingLeft: '10px' }} >
+                                                                <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" onClick={this.toggleDropdown} data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ paddingLeft: '10px', color: 'White' }}>
                                                                     {selectedOption}
                                                                 </button>
-                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                                                                    <button class="dropdown-item" onClick={() => this.handleOptionSelect('Option 1')}>Option 1</button>
-                                                                    <button class="dropdown-item" onClick={() => this.handleOptionSelect('Option 2')}>Option 2</button>
-                                                                    <button class="dropdown-item" onClick={() => this.handleOptionSelect('Option 3')}>Option 3</button>
+                                                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 1')}>Option 1</button>
+                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 2')}>Option 2</button>
+                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 3')}>Option 3</button>
                                                                 </div>
                                                             </div>
                                                         </div>

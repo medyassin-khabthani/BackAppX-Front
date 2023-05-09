@@ -22,6 +22,7 @@ import Extensions from './pages/Extensions';
 import Products from './pages/Products';
 import Produit from './pages/Produit';
 import Categorie from './pages/Categorie';
+import Ticket from './pages/Ticket';
 
 
 {/* <Route exact path='/' component={Home}/> */ }
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/shop" element={<Shop />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/order" element={<Order />} />
+          <Route exact path="/ticket" element={<Ticket />} />
 
 
         </Routes>

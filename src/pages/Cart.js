@@ -117,6 +117,7 @@ class Cart extends Component {
 
     handleOrder = async (customerName) => {
         const { cartItems } = this.state;
+        const projectId = localStorage.getItem('projectId');
 
         const orderProducts = cartItems.map(item => {
             const { product, quantity } = item;
@@ -125,7 +126,7 @@ class Cart extends Component {
                 productId: product._id,
                 quantity,
                 price: product.price,
-                status: 'Pending'
+                status: 'pending'
             };
         });
 
@@ -134,7 +135,8 @@ class Cart extends Component {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    customerId: '640602ba6e1d319c3b020f15', // replace with actual customer ID
+                    customerId: '640602ba6e1d319c3b020f15',
+                    projectId,
                     products: orderProducts
                 })
             });
