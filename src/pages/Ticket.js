@@ -16,7 +16,10 @@ class Ticket extends Component {
             contenu: '',
             stat: '',
             message: '',
-            userId: ""
+            userId: "",
+            userData:"",
+            id:"",
+            role:""
 
         };
         this.socket = io("http://localhost:9092");
@@ -47,7 +50,7 @@ class Ticket extends Component {
         const requestBody = {
             objet: this.state.objet,
             contenu: this.state.contenu,
-            userId: "640602ba6e1d319c3b020f15",
+            userId: window.localStorage.getItem("userId"),
             stat: this.state.stat,
         };
 
@@ -120,6 +123,7 @@ class Ticket extends Component {
         const currentUser = JSON.parse(window.localStorage.getItem('currentUser'));
 
         const reclamationId = localStorage.getItem("selectedReclamationId");
+        const id = localStorage.getItem("userId");
 
         if (!content) {
             alert("Please enter a message");
@@ -127,7 +131,7 @@ class Ticket extends Component {
         }
 
         const message = {
-            senderId: currentUser._id,
+            senderId: id,
             reclamtionId: reclamationId,
             content,
         };
@@ -148,10 +152,36 @@ class Ticket extends Component {
     };
 
     componentDidMount() {
-        const currentUser = JSON.parse(window.localStorage.getItem('currentUser'));
 
-        console.log(currentUser.Role)
-        if (currentUser.Role == "Admin") {
+        fetch('http://127.0.0.1:9092/user/userData', {
+            method: 'POST',
+            crossDomain: true,
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+              token: window.localStorage.getItem('token'),
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              this.setState({id:data?.data._id,role:data?.data.Role});
+
+              window.localStorage.setItem("userId", data?.data._id)
+              window.localStorage.setItem("userRole",data?.data.Role)
+            });
+
+
+
+
+            let id= window.localStorage.getItem("userId")
+            let role = window.localStorage.getItem("userRole")
+            console.log("role",role)
+            console.log("id",id)
+
+        if (role == "Admin") {
             fetch(`http://127.0.0.1:9092/reclamation/allReclamations`, {
                 method: "GET",
                 crossDomain: true,
@@ -168,7 +198,7 @@ class Ticket extends Component {
                 })
                 .catch(error => console.error(error));
         } else {
-            fetch(`http://127.0.0.1:9092/reclamation/getReclamationsByUserId/${currentUser._id}`, {
+            fetch(`http://127.0.0.1:9092/reclamation/getReclamationsByUserId/${id}`, {
                 method: "GET",
                 crossDomain: true,
                 headers: {
@@ -199,8 +229,7 @@ class Ticket extends Component {
 
     render() {
         const { selectedReclamation } = this.state;
-        const currentUser = JSON.parse(window.localStorage.getItem('currentUser'));
-
+        const id = window.localStorage.getItem("userId")
         return (
             < div id="wrapper" >
                 <NavLeftDashboard />
@@ -290,7 +319,7 @@ class Ticket extends Component {
                                                     <div className="card-body" style={{ maxHeight: '400px', overflowY: 'auto' }} ref={this.messageContainer} >
                                                         {this.state.messages.map(message => (
                                                             <div key={message._id} style={{ display: 'flex', flexDirection: 'column' }}>
-                                                                {message.senderId == currentUser._id ? (
+                                                                {message.senderId == id ? (
                                                                     <div style={{ backgroundColor: '#D9EDF7', padding: '10px', borderRadius: '10px', maxWidth: '80%', alignSelf: 'flex-end', marginTop: '10px' }}>
                                                                         <p style={{ margin: '0' }}>{message.content}</p>
                                                                     </div>

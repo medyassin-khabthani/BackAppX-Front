@@ -14,9 +14,10 @@ class Categories extends Component {
             reference: "",
             image: "",
             id: "",
-            idCategoryEdit: "",
-            nameEdit: "test",
-            priceEdit: "",
+            nameEdit:"",
+            imageEdit: null,
+            descriptionEdit: "",
+            referenceEdit: "",
             selectedOption: 'Select an option',
             dropdownOpen: false,
             isDialogOpen: false,
@@ -61,6 +62,19 @@ class Categories extends Component {
         });
     };
 
+    handleEditCategorie = (categorie) => {
+        this.setState({
+            editCategorie: true,
+            idEdit: categorie._id,
+            nameEdit: categorie.name,
+            descriptionEdit: categorie.description,
+            referenceEdit: categorie.reference,
+            imageEdit: categorie.image,
+        });
+        console.log(categorie)
+
+    };
+
     toggleDropdown = () => {
         this.setState((prevState) => ({
             dropdownOpen: !prevState.dropdownOpen,
@@ -94,33 +108,63 @@ class Categories extends Component {
         }
     }
 
-    handleUpdate(e) {
-        e.preventDefault();
-        const { idCategoryEdit, nameEdit, priceEdit } = this.state;
-        if (this.validateEdit()) {
-            let name = nameEdit;
-            let price = priceEdit;
-            fetch(`http://127.0.0.1:9092/category/category/${idCategoryEdit}`, {
-                method: "PATCH",
-                crossDomain: true,
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
-                body: JSON.stringify({
-                    name,
-                    price,
+    async handleUpdate(event) {
+        event.preventDefault();
+        const { idEdit, nameEdit, descriptionEdit, referenceEdit } = this.state;
+    
+    
+        let name=nameEdit;
+        let description=descriptionEdit;
+        let reference=referenceEdit;
 
-                }),
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    window.location.href = "./categorie"
+    
+        fetch(`http://127.0.0.1:9092/category/category/${idEdit}`,{
+            method:"PUT",
+            crossDomain:true,
+            headers:{
+              "Content-Type":"application/json",
+              Accept:"application/json",
+              "Access-Control-Allow-Origin":"*",
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                reference
+            }),
+          })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.status == "updated"){
+              if (this.state.image!=null){
+                this.uploadImage(idEdit)
+              }
+              this.setState({alertText:"categorie modifié avec succées.",showAlert:true,alertColor:"alert-success"})
+              setTimeout(() => {
+                alert('categorie updated !');
 
-                })
-        }
+                window.location.href="./categorie"
+              }, 2000);
+             }
+            
+        
+          });
     }
+    
+        
+
+    handleImageUpload = e => {
+        this.setState({image:e.target.files[0]})
+    
+        console.log(this.state.image)
+    
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({imageUrl:reader.result})
+        };
+    
+        reader.readAsDataURL(e.target.files[0]);
+        this.setState({showImage:true})
+      };
 
     handleCloseDialog = () => {
         this.setState({ isDialogOpen: false });
@@ -212,26 +256,17 @@ class Categories extends Component {
                                     <div id="editproduct" className="modal fade" role="dialog" tabIndex={-1}>
                                         <div className="modal-dialog" role="document">
                                             <div className="modal-content">
-                                                <form onSubmit={this.handleUpdate}>
+                                                <form onSubmit={this.handleUpdate} encType="multipart/form-data">
                                                     <div className="modal-header">
                                                         <h4 >Edit Categorie</h4><button className="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" />
                                                     </div>
                                                     <div className="modal-body">
-                                                        <input className="form-control" value={this.state.nameEdit} onChange={(e) => this.setState({ nameEdit: e.target.value })} type="text" placeholder="name" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
-                                                        <input className="form-control" value={this.state.priceEdit} onChange={(e) => this.setState({ priceEdit: e.target.value })} placeholder="price" style={{ paddingTop: '12px', paddingBottom: '12px' }} defaultValue={""} />
-                                                        <div className="dropdown-container" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px', display: 'flex', alignItems: 'center' }} >
-                                                            <span>Categories : </span>
-                                                            <div className="dropdown" style={{ paddingLeft: '10px' }} >
-                                                                <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" onClick={this.toggleDropdown} data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ paddingLeft: '10px', color: 'White' }}>
-                                                                    {selectedOption}
-                                                                </button>
-                                                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 1')}>Option 1</button>
-                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 2')}>Option 2</button>
-                                                                    <button className="dropdown-item" onClick={() => this.handleOptionSelect('Option 3')}>Option 3</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    <input className="form-control" value={this.state.nameEdit} onChange={(e) => this.setState({ nameEdit: e.target.value })} type="text" placeholder="name" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
+                                                        <input className="form-control" value={this.state.descriptionEdit} onChange={(e) => this.setState({ descriptionEdit: e.target.value })} placeholder="Description" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
+                                                        <input className="form-control" value={this.state.referenceEdit} onChange={(e) => this.setState({ referenceEdit: e.target.value })} placeholder="Reference" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
+                                                        <input type="file" accept="image/*"  onChange={(e) => this.setState({ imageEdit: e.target.files[0] })}/>
+
+
                                                     </div>
                                                     <div className="modal-footer">
                                                         <button className="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
@@ -269,7 +304,7 @@ class Categories extends Component {
                                                             <td className="text-center align-middle">{categorie.name}</td>
                                                             <td className="text-center align-middle">{categorie.description}</td>
                                                             <td className="text-center align-middle">{categorie.reference}</td>
-                                                            <td className="text-center align-middle" style={{ maxHeight: '60px', height: '60px' }}><a className="btn btnMaterial btn-flat success semicircle" onClick={() => this.handleUpdate(categorie)} role="button" href="#editproduct" data-bs-toggle="modal" ><i className="fas fa-pen" style={{ color: '#4e73df' }} /></a><a className="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button" style={{ marginLeft: '5px' }} data-bs-toggle="modal" onClick={() => this.handleDeleteCategory(categorie._id)} data-bs-target="#delete-modal" href="#"><i className="fas fa-trash btnNoBorders" style={{ color: '#DC3545' }} /></a></td>
+                                                            <td className="text-center align-middle" style={{ maxHeight: '60px', height: '60px' }}><a className="btn btnMaterial btn-flat success semicircle" onClick={() => this.handleEditCategorie(categorie)} role="button" href="#editproduct" data-bs-toggle="modal" ><i className="fas fa-pen" style={{ color: '#4e73df' }} /></a><a className="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button" style={{ marginLeft: '5px' }} data-bs-toggle="modal" onClick={() => this.handleDeleteCategory(categorie._id)} data-bs-target="#delete-modal" href="#"><i className="fas fa-trash btnNoBorders" style={{ color: '#DC3545' }} /></a></td>
                                                         </tr>
                                                     </tbody>
 

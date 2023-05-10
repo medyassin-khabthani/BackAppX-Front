@@ -126,6 +126,7 @@ const Header = () => {
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data?.data)
           setToken(window.localStorage.getItem('token'));
           setUserData(data?.data);
           setImageUrl(data?.data.image);

@@ -44,7 +44,8 @@ class EditProfile extends Component {
   })
   .then((res) => res.json())
   .then((data) => {
-      this.setState({
+    console.log(data?.data)  
+    this.setState({
       token:window.localStorage.getItem("token"),
       userData:data?.data,
       id:data?.data._id,
@@ -98,9 +99,9 @@ class EditProfile extends Component {
         console.log(data.user)
         this.setState({userData:data.user})
         this.setState({alertText:"Profil modifié avec succées.",showAlert:true,alertColor:"alert-success"})
-        window.localStorage.removeItem('token');
+/*         window.localStorage.removeItem('token');
 
-        window.localStorage.setItem("token",data?.token)
+        window.localStorage.setItem("token",data?.token) */
         setTimeout(() => {
           window.location.href="./edit-profile"
         }, 2000);

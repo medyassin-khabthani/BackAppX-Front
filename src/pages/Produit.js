@@ -11,6 +11,7 @@ class Products extends Component {
             products: [],
             categories: [],
             selectedOption: "Select Category",
+            selectedOptionEdit: "Select Category Edit",
             name: "",
             category: "",
             description: "",
@@ -26,6 +27,7 @@ class Products extends Component {
             descriptionEdit: "",
             quantityEdit: "",
             referenceEdit: "",
+            categoryIdEdit:"",
             priceEdit: "",
             imageEdit: null,
             imageUrl: "",
@@ -82,6 +84,10 @@ class Products extends Component {
             selectedOption: name,
             categoryId: categoryId
         });
+        this.setState({
+            selectedOptionEdit: name,
+            categoryIdEdit: categoryId
+        });
     };
 
     toggleDropdown = () => {
@@ -99,9 +105,11 @@ class Products extends Component {
             priceEdit: product.price,
             referenceEdit: product.reference,
             quantityEdit: product.quantity,
-            selectOption: product.category,
+            selectedOptionEdit: product.categoryName,
             imageEdit: product.image,
         });
+        console.log(product)
+
     };
 
     // handleSubmit(event) {
@@ -175,45 +183,66 @@ class Products extends Component {
 
     async handleUpdate(event) {
         event.preventDefault();
-        const { idEdit, image, nameEdit, selectOption, descriptionEdit, priceEdit, referenceEdit, quantityEdit, categoryEdit, imageEdit } = this.state;
-        const formData = new FormData();
-        { console.log(this.state.nameEdit, this.state.descriptionEdit, this.state.priceEdit, this.state.referenceEdit, this.state.quantityEdit, this.state.categoryEdit, imageEdit) }
+        const { idEdit, nameEdit, selectedOptionEdit, descriptionEdit, priceEdit, referenceEdit, quantityEdit, categoryIdEdit } = this.state;
+    
+    
+        let name=nameEdit;
+        let description=descriptionEdit;
+        let price=priceEdit;
+        let reference=referenceEdit;
+        let quantity = quantityEdit;
+        let category=categoryIdEdit;
+    
+        fetch(`http://127.0.0.1:9092/product/updateProduct/${idEdit}`,{
+            method:"PUT",
+            crossDomain:true,
+            headers:{
+              "Content-Type":"application/json",
+              Accept:"application/json",
+              "Access-Control-Allow-Origin":"*",
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                price,
+                reference,
+                quantity,
+                category
+            }),
+          })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.status == "updated"){
+              if (this.state.image!=null){
+                this.uploadImage(idEdit)
+              }
+              this.setState({alertText:"produit modifié avec succées.",showAlert:true,alertColor:"alert-success"})
+              setTimeout(() => {
+                alert('product updated !');
 
-
-
-        formData.append("nameEdit", nameEdit);
-        formData.append("descriptionEdit", descriptionEdit);
-        formData.append("priceEdit", priceEdit);
-        formData.append("referenceEdit", referenceEdit);
-        formData.append("quantityEdit", quantityEdit);
-        formData.append("categoryEdit", selectOption);
-        formData.append("imageEdit", imageEdit);
-        { console.log(`http://127.0.0.1:9092/product/updateProduct/${idEdit}`) }
-        console.log(formData)
-        console.log(this.state.imageEdit)
-
-        try {
-            const response = await fetch(`http://127.0.0.1:9092/product/updateProduct/${idEdit}`, {
-                method: "PUT",
-                body: formData,
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Product updated:', data);
-                // TODO: Handle successful product update
-            } else {
-                console.error('Product update failed:', response.status);
-                // TODO: Handle failed product update
-            }
-        } catch (error) {
-            console.error(error);
-            this.setState({ errorMessage: 'Error uploading product. Please try again later.' });
-        }
-
-
+                window.location.href="./produit"
+              }, 2000);
+             }
+            
+        
+          });
     }
+    
+        
 
-
+    handleImageUpload = e => {
+        this.setState({image:e.target.files[0]})
+    
+        console.log(this.state.image)
+    
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({imageUrl:reader.result})
+        };
+    
+        reader.readAsDataURL(e.target.files[0]);
+        this.setState({showImage:true})
+      };
 
     handleCloseDialog = () => {
         this.setState({ isDialogOpen: false });
@@ -354,13 +383,13 @@ class Products extends Component {
                                                         <input className="form-control" value={this.state.priceEdit} onChange={(e) => this.setState({ priceEdit: e.target.value })} placeholder="Price" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.referenceEdit} onChange={(e) => this.setState({ referenceEdit: e.target.value })} placeholder="Reference" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
                                                         <input className="form-control" value={this.state.quantityEdit} onChange={(e) => this.setState({ quantityEdit: e.target.value })} placeholder="Quantity" style={{ marginBottom: '20px', paddingTop: '12px', paddingBottom: '12px' }} />
-                                                        <input type="file" accept="image/*" onChange={(e) => this.setState({ imageEdit: e.target.files[0] })} />
+                                                        <input type="file" accept="image/*" onChange={this.handleImageChange}  onChange={(e) => this.setState({ imageEdit: e.target.files[0] })} />
+
                                                         <div className="dropdown-container" style={{ marginBottom: "20px", paddingTop: "12px", paddingBottom: "12px", display: "flex", alignItems: "center", }}>
                                                             <span>Categories: </span>
                                                             <div className="dropdown" style={{ paddingLeft: "10px" }}>
-                                                                <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" onClick={this.toggleDropdown} data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ paddingLeft: "10px", color: "white" }}>
-                                                                    {selectOption}
-
+                                                            <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" onClick={this.toggleDropdown} data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ paddingLeft: "10px", color: "white" }}>
+                                                                    {this.state.selectedOptionEdit}
                                                                 </button>
                                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                     {categories.map((category) => (

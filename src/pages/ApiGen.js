@@ -38,11 +38,10 @@ function ApiGenerator() {
                 console.log(data?.data.apiGen)
                 if (data?.data.apiGen == 3){
                     setCheckCrud(true)
-                }else if (data?.data.apiGen == 4){
                     setCheckPayment(true)
                 }
                 if (data?.data.provider == "github" || data?.data.githubUsername != null ){
-                    setUsername(data?.data.name)
+                    setUsername(data?.data.githubUsername)
                     console.log(data?.data.provider);
                     fetchGithubRepos(data?.data.githubUsername)                    
                 }
@@ -154,15 +153,18 @@ function ApiGenerator() {
 .then((data) => {
     setAlertText(data);
     alert(data?.message);
+    if (data?.message == "Git commands executed successfully!"){
+    window.location.href="./apigene"
+    }
     console.log(data);
 })
 .catch((error) => {
     console.error(error);
-    alert('Error executing API commands: ' + error.message);
+    alert('Please try again.');
 });
      }
 
-    const restart = (e) =>{
+/*     const restart = (e) =>{
         e.preventDefault();
 
         
@@ -177,7 +179,7 @@ function ApiGenerator() {
             "Access-Control-Allow-Origin":"*",
         },
             body: JSON.stringify({
-            userId:userData._id
+            user_id:userData._id
         }),
         })
             .then((res) => {
@@ -188,8 +190,8 @@ function ApiGenerator() {
                 setAlertText(data);
                 alert(data);
             });
-    }
-    const run = (e) =>{
+    } */
+/*     const run = (e) =>{
         e.preventDefault();
 
         
@@ -204,7 +206,7 @@ function ApiGenerator() {
             "Access-Control-Allow-Origin":"*",
         },
             body: JSON.stringify({
-            userId:userData._id
+            user_id:userData._id
         }),
         })
             .then((res) => {
@@ -215,8 +217,8 @@ function ApiGenerator() {
                 setAlertText(data);
                 alert(data);
             });
-    }
-    const stop = (e) =>{
+    } */
+/*     const stop = (e) =>{
         e.preventDefault();
 
         
@@ -231,7 +233,7 @@ function ApiGenerator() {
             "Access-Control-Allow-Origin":"*",
         },
             body: JSON.stringify({
-            userId:userData._id
+            user_id:userData._id
         }),
         })
             .then((res) => {
@@ -242,7 +244,111 @@ function ApiGenerator() {
                 setAlertText(data);
                 alert(data);
             });
+    } */
+
+    const run = (e) =>{
+        e.preventDefault();
+
+        
+   fetch("http://127.0.0.1:9092/apiGenerator/deploy",{
+   method:"POST",
+   crossDomain:true,
+   headers:{
+       "Content-Type":"application/json",
+       Accept:"application/json",
+       "Access-Control-Allow-Origin":"*",
+   },
+   body: JSON.stringify({
+       user_id:userData._id
+   }),
+})
+.then((res) => {
+   if (!res.ok) {
+       throw new Error(res.statusText);
+   }
+   return res.json();
+})
+.then((data) => {
+   setAlertText(data);
+   alert("API is running");
+
+   console.log(data);
+})
+.catch((error) => {
+   console.error(error);
+   alert('Please try again');
+});
+    
     }
+
+    const restart = (e) =>{
+        e.preventDefault();
+
+        
+   fetch("http://127.0.0.1:9092/apiGenerator/restart",{
+   method:"POST",
+   crossDomain:true,
+   headers:{
+       "Content-Type":"application/json",
+       Accept:"application/json",
+       "Access-Control-Allow-Origin":"*",
+   },
+   body: JSON.stringify({
+       user_id:userData._id
+   }),
+})
+.then((res) => {
+   if (!res.ok) {
+       throw new Error(res.statusText);
+   }
+   return res.json();
+})
+.then((data) => {
+   setAlertText(data);
+   alert("API has restarted");
+   console.log(data);
+})
+.catch((error) => {
+   console.error(error);
+   alert('please try again');
+});
+    
+    }
+
+    const stop = (e) =>{
+        e.preventDefault();
+
+        
+   fetch("http://127.0.0.1:9092/apiGenerator/stop",{
+   method:"POST",
+   crossDomain:true,
+   headers:{
+       "Content-Type":"application/json",
+       Accept:"application/json",
+       "Access-Control-Allow-Origin":"*",
+   },
+   body: JSON.stringify({
+       user_id:userData._id
+   }),
+})
+.then((res) => {
+   if (!res.ok) {
+       throw new Error(res.statusText);
+   }
+   return res.json();
+})
+.then((data) => {
+   setAlertText(data);
+   alert("API stopped successfully");
+   console.log(data);
+})
+.catch((error) => {
+   console.error(error);
+   alert("Please try again");
+});
+    
+    }
+
     function generateCrud(){
         apiGen("crud",userData._id);
         window.location.href="/apiGene"
@@ -268,11 +374,20 @@ function ApiGenerator() {
                 <div className="card shadow">
                     <div className="card-header py-3 d-flex">
                         <p className="text-primary m-0 fw-bold" style={{  bsprimary: '#00a0c4', bsprimaryrgb: '0,160,196' }}><span style={{ fontweight: 'normal !important', color: 'rgba(var(--bs-dark-rgb), var(--bs-text-opacity))' }}>Api Generator</span></p>
-                        <div>
-                        <button className="btn" onClick={stop} type="button" style={{ marginLeft:"auto", color:'white', background:'rgb(241, 92, 87)'}}>stop</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
-                        <button className="btn" onClick={restart} type="button" style={{ marginLeft:"auto", color:'white', background:'rgb(241, 92, 87)'}}>restart</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
-                        <button className="btn" onClick={run} type="button" style={{ marginLeft:"auto", color:'white', background:'rgb(241, 92, 87)'}}>run</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
+                            {
+                                userData.apiGen == 0?
+                                <div></div>
+                                :  
+                                <div>
+
+                        <button className="btn btn-sm" onClick={stop} type="button" style={{ marginLeft:"60px", color:'white', background:'rgb(241, 92, 87)'}}><i className="fa fa-stop" /></button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
+                        <button className="btn btn-sm" onClick={restart} type="button" style={{ marginLeft:"auto", color:'white', background:'rgb(241, 92, 87)'}}><i className="fa fa-repeat" /></button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
+                        <button className="btn btn-sm" onClick={run} type="button" style={{ marginLeft:"auto", color:'white', background:'rgb(241, 92, 87)'}}><i className="fa fa-play" /></button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button>
                         </div>
+
+                            }
+
+                        
                         {
                             userData.apiGen > 0 && userData.apiGen < 3? 
                             (<div style={{ marginLeft:"auto"}}>
@@ -299,7 +414,7 @@ function ApiGenerator() {
                                             <h3 className="text-white text-center pt-2">Crud Api</h3>
                                             <hr className="text-white" />
                                             {
-                                                userData.apiGen === 1 ? (<div className="text-start col-12"><span className='text-success'>Generated</span><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button><span style={{ color: 'rgb(255,255,255)', paddingleft: '22px' }}>View details</span></div>):(<div className="text-start col-12"><button className="btn text-start" disabled={checkCrud} style={{ color:'white', background:'rgb(241, 92, 87)'}} onClick={generateCrud} type="button">Generate</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button><span style={{ color: 'rgb(255,255,255)', paddingleft: '22px' }}>View details</span></div>)
+                                                userData.apiGen === 1 ? (<div className="text-start col-12"><span className='text-success'>Generated</span><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button></div>):(<div className="text-start col-12"><button className="btn w-100 text-center" hidden={checkCrud} style={{ color:'white', background:'rgb(241, 92, 87)'}} onClick={generateCrud} type="button">Generate</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button></div>)
 
                                              }
                                             
@@ -310,7 +425,7 @@ function ApiGenerator() {
                                             <h3 className="text-white text-center pt-2">Payement Api</h3>
                                             <hr className="text-white" />
                                              {
-                                                userData.apiGen == 2 ? (<div className="text-start col-12"><span className='text-success'>Generated</span><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button><span style={{ color: 'rgb(255,255,255)', paddingleft: '22px' }}>View details</span></div>):(<div className="text-start col-12"><button className="btn" type="button" disabled={checkPayment} onClick={generatePayment} style={{ color:'white', background:'rgb(241, 92, 87)'}}>Generate</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button><span style={{ color: 'rgb(255,255,255)', paddingleft: '22px' }}>View details</span></div>)
+                                                userData.apiGen == 2 ? (<div className="text-start col-12"><span className='text-success'>Generated</span><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button></div>):(<div className="text-start col-12"><button className="btn w-100 text-center" type="button" hidden={checkPayment} onClick={generatePayment} style={{ color:'white', background:'rgb(241, 92, 87)'}}>Generate</button><button className="btn" type="button" data-bs-target="#modalRecibirCadaber" data-bs-toggle="modal"></button></div>)
                                              }
                                             
                                         </div>
