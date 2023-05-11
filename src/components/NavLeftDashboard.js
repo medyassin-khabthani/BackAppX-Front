@@ -39,7 +39,7 @@ class NavLeftDashboard extends Component{
                     <li className="nav-item"><a className="nav-link" href="/apigene" onClick={() => this.handleClick("apigene")} ><i className="far fa-sun"></i><span>Api Generator</span></a></li>
                     <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="storageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  >
-                <i className="fa fa-cash-register"></i><span>E-commerce</span>
+                <i className="fa fa-money-bill"></i><span>E-commerce</span>
               </a>
               <div className="dropdown-menu" aria-labelledby="storageDropdown" style={{ backgroundColor: 'transparent', border: 0, color: 'white' }}>
               <a className="dropdown-item" href="/categorie" onClick={() => this.handleClick("categorie")} style={{ color: 'white' }}>Categories</a>

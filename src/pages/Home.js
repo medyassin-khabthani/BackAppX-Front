@@ -243,7 +243,7 @@ function Home() {
       <div className="row">
         <div className="col-md-6">
           <h3 className="fw-bold" data-aos="fade-right" data-aos-once="true">{t('feature1')}</h3>
-          <p data-aos="fade-right" data-aos-delay={50} data-aos-once="true">{t('feature2')}</p><a className="btn btn-outline-primary btn-sm fs-6 border rounded-pill border-2 border-primary py-2 px-4" role="button" data-aos="fade-right" data-aos-delay={100} data-aos-once="true" style={{width: '265.4px'}}>{t('feature3')}</a>
+          <p data-aos="fade-right" data-aos-delay={50} data-aos-once="true">{t('feature2')}</p><a className="btn btn-outline-primary btn-sm fs-6 border rounded-pill border-2 border-primary py-2 px-4" href='/services' role="button" data-aos="fade-right" data-aos-delay={100} data-aos-once="true" style={{width: '265.4px'}}>{t('feature3')}</a>
         </div>
         <div className="col-md-6">
           <div className="d-flex align-items-center align-items-md-start align-items-xl-center" data-aos="fade-left" data-aos-once="true">
@@ -252,7 +252,7 @@ function Home() {
               </svg></div>
             <div>
               <h4>{t('featureIcon1')}</h4>
-              <p>{t('featureIcon2')}</p><a href="#">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
+              <p>{t('featureIcon2')}</p><a href="/services">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
                   <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
                 </svg></a>
             </div>
@@ -264,7 +264,7 @@ function Home() {
               </svg></div>
             <div>
               <h4>{t('featureIcon3')}</h4>
-              <p>{t('featureIcon4')}</p><a href="#">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
+              <p>{t('featureIcon4')}</p><a href="/services">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
                   <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
                 </svg></a>
             </div>
@@ -276,7 +276,7 @@ function Home() {
               </svg></div>
             <div>
               <h4>{t('featureIcon5')}</h4>
-              <p>{t('featureIcon6')}</p><a href="#">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
+              <p>{t('featureIcon6')}</p><a href="/services">{t('learnMore')}&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" className="bi bi-arrow-right">
                   <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
                 </svg></a>
             </div>
@@ -303,7 +303,7 @@ function Home() {
             <hr style={{borderTop: '1px solid #8c8b8b'}} className="mx-5 my-5" />
             <h2 className="text-center" style={{color: '#EC1D6A'}}>40.00 <span style={{fontSize: 'larger'}}>$</span></h2><h2>
               <div>
-                <div className="mt-3 text-center mx-auto "><a className="btn btn-primary fs-5 border-primary me-2 py-2 px-4 rounded-4" role="button" target="_blank" style={{background: '#F15C57', width: '300px'}}>{t('premium3')}</a></div>
+                <div className="mt-3 text-center mx-auto "><a className="btn btn-primary fs-5 border-primary me-2 py-2 px-4 rounded-4" role="button" href='/pricing' target="_blank" style={{background: '#F15C57', width: '300px'}}>{t('premium3')}</a></div>
               </div>
             </h2></div>
         </div>
@@ -332,19 +332,49 @@ function Home() {
         <div className="col" style={{paddingLeft: 0}}>
           <div className="border-1 tab-content">
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-auth" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>{codeText}</p>
+              <div class="code-preview">
+              <pre>
+                <code>
+                {codeText}                
+                </code>
+              </pre>
+            </div>
             </div>
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-api" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>second</p>
+            <div class="code-preview">
+              <pre>
+                <code>
+                {codeText}                
+                </code>
+              </pre>
+            </div>
             </div>
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-image" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>third</p>
+            <div class="code-preview">
+              <pre>
+                <code>
+                {codeText}                
+                </code>
+              </pre>
+            </div>
             </div>
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-data" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>fourth</p>
+            <div class="code-preview">
+              <pre>
+                <code>
+                {codeText}                
+                </code>
+              </pre>
+            </div>
             </div>
             <div className="bg-muted bg-gradient shadow-sm tab-pane fade" id="list-func" role="tabpanel" style={{padding: '10px', height: '366px', backgroundColor: '#F1F3F4'}}>
-              <p>fifth</p>
+            <div class="code-preview">
+              <pre>
+                <code>
+                {codeText}                
+                </code>
+              </pre>
+            </div>
             </div>
           </div>
         </div>
@@ -364,7 +394,7 @@ function Home() {
               <h2 className="my-4 fw-bold">{t('hero1')}</h2>
               <h5 className="my-4">{t('hero2')}</h5>
               <div>
-                <div className="mt-3 text-center mx-auto "><a className="btn btn-primary fs-5 border-primary me-2 py-2 px-4 rounded-4" role="button" target="_blank" style={{background: '#F15C57', width: '300px'}}>{t('hero3')}</a></div>
+                <div className="mt-3 text-center mx-auto "><a className="btn btn-primary fs-5 border-primary me-2 py-2 px-4 rounded-4" role="button" href="/project"target="_blank" style={{background: '#F15C57', width: '300px'}}>{t('hero3')}</a></div>
               </div>                        
             </div>
           </div>
