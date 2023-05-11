@@ -52,12 +52,12 @@ function App() {
     
         <Route path="*" element={<h1>404: Not Found</h1>}/>
 
-        <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route exact path="/authentification" element={<Authentification />} />
+{/*         <Route exact path="/dashboard" element={<Dashboard />} />
+ */}        <Route exact path="/authentification" element={<Authentification />} />
         <Route exact path="/storage" element={<Storage />} />
         <Route exact path="/apigene" element={<ApiGen />} />
-        <Route exact path="/extensions" element={<Extensions />} />
-        <Route exact path="/mailing" element={<Mailing />} />
+{/*         <Route exact path="/extensions" element={<Extensions />} />
+ */}        <Route exact path="/mailing" element={<Mailing />} />
         <Route exact path="/products" element={<Products />} />
         <Route exact path="/produit" element={<Produit />} />
           <Route exact path="/categorie" element={<Categorie />} />

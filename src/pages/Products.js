@@ -53,12 +53,12 @@ class Products extends Component {
                                                         </div>
                                                     </a>
                                                 </div>
-                                                <div className="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4" style={{ paddingtop: '15px', paddingbottom: '15px', paddingright: '15px', paddingleft: '15px' }}>
-                                                    <a href='/extensions' style={{ textDecoration: 'none' }}>
+                                                <div className="col-auto col-sm-12 col-md-12 col-lg-4 col-xl-4 mt-3" style={{ paddingtop: '15px', paddingbottom: '15px', paddingright: '15px', paddingleft: '15px' }}>
+                                                    <a href='/mailing' style={{ textDecoration: 'none' }}>
                                                         <div className="bg-light border rounded shadow card" data-bss-hover-animate="pulse"><img className="card-img-top" src="assetsDash/img/Puzzles-780x470.jpg" width="323" height="232" alt='product' />
                                                             <div className="card-body">
-                                                                <h3 className="card-title" style={{ fontfamily: 'Antic, sans-serif', color: 'rgb(81,87,94)' }}>Extensions</h3>
-                                                                <p className="card-text" style={{ fontfamily: 'Antic, sans-serif', color: 'rgb(81,87,94)' }}></p><p id="lorem">Pre-installed solutions that save you time </p>
+                                                                <h3 className="card-title" style={{ fontfamily: 'Antic, sans-serif', color: 'rgb(81,87,94)' }}> Mailing </h3>
+                                                                <p className="card-text" style={{ fontfamily: 'Antic, sans-serif', color: 'rgb(81,87,94)' }}></p><p id="lorem">Send scheduled Emails to clients. </p>
                                                             </div>
                                                         </div>
                                                     </a>

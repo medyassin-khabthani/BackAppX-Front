@@ -227,7 +227,7 @@ class Project extends Component {
         goToDashboard(id,reference){
           window.localStorage.setItem("projectId",id);
           window.localStorage.setItem("reference",reference)
-          window.location.href="./dashboard"
+          window.location.href="./authentification"
         }
 
     render() {
