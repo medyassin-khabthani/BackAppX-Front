@@ -92,6 +92,10 @@ export default function CheckoutForm() {
         </span>
             </button>
             {message && <div id="payment-message">{message}</div>}
+            
+            {message &&
+            <div><a href="/login">Go back to Login</a></div>}
+
         </form>
         </div>
     );
