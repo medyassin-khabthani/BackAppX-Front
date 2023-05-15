@@ -12,7 +12,7 @@ class Loading extends Component {
   }
 
   componentDidMount(){
-    fetch('http://localhost:9092/user/login/success')
+    fetch('https://backappx.onrender.com/user/login/success')
     .then(response => response.json())
     .then(data => {
         if (data?.message =="ok"){
