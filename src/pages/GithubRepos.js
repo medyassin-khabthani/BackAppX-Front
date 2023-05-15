@@ -9,7 +9,7 @@ function GithubRepos() {
     const [username,setUsername] = useState('');
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9092/user/userData",{
+        fetch("https://backappx.onrender.com/user/userData",{
             method:"POST",
             crossDomain:true,
             headers:{
@@ -62,7 +62,7 @@ function GithubRepos() {
     function handleUpdate(usernameGit,gitId){
 console.log("1")
       
-        fetch(`http://127.0.0.1:9092/user/profileGit/${userData._id}`,{
+        fetch(`https://backappx.onrender.com/user/profileGit/${userData._id}`,{
           method:"PUT",
           crossDomain:true,
           headers:{
