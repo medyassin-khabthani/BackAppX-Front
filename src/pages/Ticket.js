@@ -22,7 +22,7 @@ class Ticket extends Component {
             role:""
 
         };
-        this.socket = io("http://localhost:9092");
+        this.socket = io("https://backappx.onrender.com/");
         this.messageContainer = React.createRef();
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,7 +54,7 @@ class Ticket extends Component {
             stat: this.state.stat,
         };
 
-        fetch(`http://127.0.0.1:9092/reclamation/reclamation`, {
+        fetch(`https://backappx.onrender.com/reclamation/reclamation`, {
             method: "POST",
             crossDomain: true,
             headers: {
@@ -103,7 +103,7 @@ class Ticket extends Component {
     };
 
     fetchMessages(reclamationId) {
-        fetch(`http://127.0.0.1:9092/reclamation/reclamation/getMessages/${reclamationId}`, {
+        fetch(`https://backappx.onrender.com/reclamation/reclamation/getMessages/${reclamationId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -153,7 +153,7 @@ class Ticket extends Component {
 
     componentDidMount() {
 
-        fetch('http://127.0.0.1:9092/user/userData', {
+        fetch('https://backappx.onrender.com/user/userData', {
             method: 'POST',
             crossDomain: true,
             headers: {
@@ -182,7 +182,7 @@ class Ticket extends Component {
             console.log("id",id)
 
         if (role == "Admin") {
-            fetch(`http://127.0.0.1:9092/reclamation/allReclamations`, {
+            fetch(`https://backappx.onrender.com/reclamation/allReclamations`, {
                 method: "GET",
                 crossDomain: true,
                 headers: {
@@ -198,7 +198,7 @@ class Ticket extends Component {
                 })
                 .catch(error => console.error(error));
         } else {
-            fetch(`http://127.0.0.1:9092/reclamation/getReclamationsByUserId/${id}`, {
+            fetch(`https://backappx.onrender.com/reclamation/getReclamationsByUserId/${id}`, {
                 method: "GET",
                 crossDomain: true,
                 headers: {
