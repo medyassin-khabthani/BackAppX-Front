@@ -29,7 +29,7 @@ class uploadImage extends Component {
   }
   componentDidMount(){
 
-    fetch("http://127.0.0.1:9092/user/userData",{
+    fetch("https://backappx.onrender.com/user/userData",{
     method:"POST",
     crossDomain:true,
     headers:{
@@ -80,7 +80,7 @@ class uploadImage extends Component {
     const formData = new FormData();
     formData.append('file', image);
     
-      fetch(`http://127.0.0.1:9092/user/upload/${id}`, {
+      fetch(`https://backappx.onrender.com/user/upload/${id}`, {
         method: 'PUT',
         body: formData
       })
