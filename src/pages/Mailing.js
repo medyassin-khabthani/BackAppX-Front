@@ -36,7 +36,7 @@ function Mailing() {
         const isLoggedIn = window.localStorage.getItem('isLoggedIn');
         const reference = window.localStorage.getItem('reference')
         if (isLoggedIn === 'true') {
-          fetch('http://127.0.0.1:9092/user/userData', {
+          fetch('https://backappx.onrender.com/user/userData', {
             method: 'POST',
             crossDomain: true,
             headers: {
@@ -83,7 +83,7 @@ function Mailing() {
             return clientsName;
       }
       function getClientsByReferences(reference){
-        fetch(`http://127.0.0.1:9092/client/client/${reference}`, {
+        fetch(`https://backappx.onrender.com/client/client/${reference}`, {
             method: 'GET',
             crossDomain: true,
             headers: {
@@ -100,7 +100,7 @@ function Mailing() {
 
       function getEmails(){
         const projectId = window.localStorage.getItem("projectId")
-        fetch(`http://127.0.0.1:9092/email/project/${projectId}`, {
+        fetch(`https://backappx.onrender.com/email/project/${projectId}`, {
             method: 'GET',
             crossDomain: true,
             headers: {
@@ -332,7 +332,7 @@ function Mailing() {
 
         if (validate()){
 
-          fetch("http://127.0.0.1:9092/email/create",{
+          fetch("https://backappx.onrender.com/email/create",{
             method:"POST",
             crossDomain:true,
             headers:{
@@ -361,7 +361,7 @@ function Mailing() {
       }
       function deleteEmail(id){
     
-        fetch(`http://127.0.0.1:9092/email/${id}`,{
+        fetch(`https://backappx.onrender.com/email/${id}`,{
           method:"DELETE",
           crossDomain:true,
           headers:{
