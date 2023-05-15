@@ -203,7 +203,7 @@ function Home() {
   const [t , i18n] = useTranslation();
   const codeText = "BackAppX.authenticate() {\n if (this.username === admin && this.password === password) {\n  return true;\n } else {\n  return false;\n } \n }\n}"
   useEffect(() => {
-    fetch("http://127.0.0.1:9092/user/userData",{
+    fetch("https://backappx.onrender.com/user/userData",{
       method:"POST",
       crossDomain:true,
       headers:{
