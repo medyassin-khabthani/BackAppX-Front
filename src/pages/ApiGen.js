@@ -20,7 +20,7 @@ function ApiGenerator() {
   
 
     useEffect(() => {
-        fetch("http://127.0.0.1:9092/user/userData",{
+        fetch("https://backappx.onrender.com/user/userData",{
             method:"POST",
             crossDomain:true,
             headers:{
@@ -73,7 +73,7 @@ function ApiGenerator() {
     }
 
     function apiGen(apiType,userID){
-        fetch("http://127.0.0.1:9092/apiGenerator/",{
+        fetch("https://backappx.onrender.com/apiGenerator/",{
             method:"POST",
             crossDomain:true,
             headers:{
@@ -129,7 +129,7 @@ function ApiGenerator() {
 
         
          const repository = selectedOptions.value;
-    fetch("http://127.0.0.1:9092/apiGenerator/push",{
+    fetch("https://backappx.onrender.com/apiGenerator/push",{
     method:"POST",
     crossDomain:true,
     headers:{
@@ -250,7 +250,7 @@ function ApiGenerator() {
         e.preventDefault();
 
         
-   fetch("http://127.0.0.1:9092/apiGenerator/deploy",{
+   fetch("https://backappx.onrender.com/apiGenerator/deploy",{
    method:"POST",
    crossDomain:true,
    headers:{
@@ -285,7 +285,7 @@ function ApiGenerator() {
         e.preventDefault();
 
         
-   fetch("http://127.0.0.1:9092/apiGenerator/restart",{
+   fetch("https://backappx.onrender.com/apiGenerator/restart",{
    method:"POST",
    crossDomain:true,
    headers:{
@@ -319,7 +319,7 @@ function ApiGenerator() {
         e.preventDefault();
 
         
-   fetch("http://127.0.0.1:9092/apiGenerator/stop",{
+   fetch("https://backappx.onrender.com/apiGenerator/stop",{
    method:"POST",
    crossDomain:true,
    headers:{
