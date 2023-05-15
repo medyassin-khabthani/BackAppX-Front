@@ -31,7 +31,7 @@ class Login extends Component {
     console.log(newPass,resetLink);
 
     if (this.validate){
-    fetch("http://127.0.0.1:9092/user/reset-password",{
+    fetch("https://backappx.onrender.com/user/reset-password",{
       method:"PUT",
       crossDomain:true,
       headers:{
