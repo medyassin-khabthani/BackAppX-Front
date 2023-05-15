@@ -29,7 +29,7 @@ class GithubEditProfile extends Component {
   }
   componentDidMount(){
 
-    fetch("http://127.0.0.1:9092/user/userData",{
+    fetch("https://backappx.onrender.com/user/userData",{
     method:"POST",
     crossDomain:true,
     headers:{
@@ -76,7 +76,7 @@ class GithubEditProfile extends Component {
     if(this.validate()){
 
   
-    fetch(`http://127.0.0.1:9092/user/profile/${id}`,{
+    fetch(`https://backappx.onrender.com/user/profile/${id}`,{
       method:"PUT",
       crossDomain:true,
       headers:{
