@@ -11,7 +11,7 @@ class NavLeftDashboard extends Component{
   
   componentDidMount(){
     const projectId = window.localStorage.getItem('projectId');
-    fetch(`http://127.0.0.1:9092/project/project/${projectId}`)
+    fetch(`https://backappx.onrender.com/project/project/${projectId}`)
     .then((res) => res.json())
     .then((data) => {
         this.setState({projectName:data?.project.name});
