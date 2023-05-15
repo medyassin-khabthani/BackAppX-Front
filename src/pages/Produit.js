@@ -167,7 +167,7 @@ class Products extends Component {
         console.log(formData)
 
         try {
-            const response = await fetch('http://127.0.0.1:9092/product/product', {
+            const response = await fetch('https://backappx.onrender.com/product/product', {
                 method: 'POST',
                 body: formData,
             });
@@ -193,7 +193,7 @@ class Products extends Component {
         let quantity = quantityEdit;
         let category=categoryIdEdit;
     
-        fetch(`http://127.0.0.1:9092/product/updateProduct/${idEdit}`,{
+        fetch(`https://backappx.onrender.com/product/updateProduct/${idEdit}`,{
             method:"PUT",
             crossDomain:true,
             headers:{
@@ -249,7 +249,7 @@ class Products extends Component {
     }
 
     handleDeleteProduct = async (productId) => {
-        const response = await fetch(`http://localhost:9092/product/product/${productId}`, {
+        const response = await fetch(`https://backappx.onrender.com/product/product/${productId}`, {
             method: 'DELETE',
         });
         if (response.ok) {
@@ -263,7 +263,7 @@ class Products extends Component {
 
     componentDidMount() {
         const projectId = localStorage.getItem('projectId');
-        fetch(`http://127.0.0.1:9092/product/getAllProductsByProject/${projectId}`, {
+        fetch(`https://backappx.onrender.com/product/getAllProductsByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
@@ -278,7 +278,7 @@ class Products extends Component {
             })
             .catch(error => console.error(error));
 
-        fetch(`http://127.0.0.1:9092/category/getAllCategoriesByProject/${projectId}`, {
+        fetch(`https://backappx.onrender.com/category/getAllCategoriesByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
