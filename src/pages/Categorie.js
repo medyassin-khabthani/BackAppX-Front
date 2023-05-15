@@ -94,7 +94,7 @@ class Categories extends Component {
         formData.append('project', projectId)
 
         try {
-            const response = await fetch('http://127.0.0.1:9092/category/category', {
+            const response = await fetch('https://backappx.onrender.com/category/category', {
                 method: 'POST',
                 body: formData,
             });
@@ -118,7 +118,7 @@ class Categories extends Component {
         let reference=referenceEdit;
 
     
-        fetch(`http://127.0.0.1:9092/category/category/${idEdit}`,{
+        fetch(`https://backappx.onrender.com/category/category/${idEdit}`,{
             method:"PUT",
             crossDomain:true,
             headers:{
@@ -171,7 +171,7 @@ class Categories extends Component {
     }
 
     handleDeleteCategory = async (categoryId) => {
-        const response = await fetch(`http://localhost:9092/category/category/${categoryId}`, {
+        const response = await fetch(`https://backappx.onrender.com/category/category/${categoryId}`, {
             method: 'DELETE',
         });
         if (response.ok) {
@@ -184,7 +184,7 @@ class Categories extends Component {
 
     componentDidMount() {
         const projectId = localStorage.getItem('projectId');
-        fetch(`http://127.0.0.1:9092/category/getAllCategoriesByProject/${projectId}`, {
+        fetch(`https://backappx.onrender.com/category/getAllCategoriesByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {
