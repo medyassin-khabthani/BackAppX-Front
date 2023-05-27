@@ -12,7 +12,7 @@ const HeaderDashbaord = () => {
   useEffect(() => {
     const isLoggedIn = window.localStorage.getItem('isLoggedIn');
     if (isLoggedIn === 'true') {
-      fetch('http://127.0.0.1:9092/user/userData', {
+      fetch('https://backappx.onrender.com/user/userData', {
         method: 'POST',
         crossDomain: true,
         headers: {
@@ -31,7 +31,7 @@ const HeaderDashbaord = () => {
         });
     }
     const projectId = window.localStorage.getItem('projectId');
-    fetch(`http://127.0.0.1:9092/project/project/${projectId}`)
+    fetch(`https://backappx.onrender.com/project/project/${projectId}`)
     .then((res) => res.json())
     .then((data) => {
         setProjectName(data?.project.name);

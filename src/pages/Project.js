@@ -30,7 +30,7 @@ class Project extends Component {
       }
       
       addToUser(id,ProjectId){
-        fetch(`http://127.0.0.1:9092/user/myProject/${id}`,{
+        fetch(`https://backappx.onrender.com/user/myProject/${id}`,{
           method:"PUT",
           crossDomain:true,
           headers:{
@@ -68,7 +68,7 @@ class Project extends Component {
         let name=nameEdit;
         let description=descriptionEdit;
         let bgColor=bgColorEdit;
-        fetch(`http://127.0.0.1:9092/project/project/${idProjectEdit}`,{
+        fetch(`https://backappx.onrender.com/project/project/${idProjectEdit}`,{
           method:"PUT",
           crossDomain:true,
           headers:{
@@ -103,7 +103,7 @@ class Project extends Component {
 
       deleteProject(id){
     
-        fetch(`http://127.0.0.1:9092/project/project/${id}`,{
+        fetch(`https://backappx.onrender.com/project/project/${id}`,{
           method:"DELETE",
           crossDomain:true,
           headers:{
@@ -128,7 +128,7 @@ class Project extends Component {
                       
 
      
-        fetch("http://127.0.0.1:9092/project/project",{
+        fetch("https://backappx.onrender.com/project/project",{
           method:"POST",
           crossDomain:true,
           headers:{
@@ -156,13 +156,13 @@ class Project extends Component {
 
       componentDidMount(){
 
-        fetch("http://127.0.0.1:9092/project/project")
+        fetch("https://backappx.onrender.com/project/project")
         .then((res) => res.json())
         .then((data) => {
 
           })
 
-          fetch("http://127.0.0.1:9092/user/userData",{
+          fetch("https://backappx.onrender.com/user/userData",{
             method:"POST",
             crossDomain:true,
             headers:{

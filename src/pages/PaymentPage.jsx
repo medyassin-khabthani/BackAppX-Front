@@ -14,7 +14,7 @@ export default function App() {
     const [clientSecret, setClientSecret] = useState("");
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        fetch("http://localhost:9092/payment/create-payment-intent", {
+        fetch("https://backappx.onrender.com/payment/create-payment-intent", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ items: [{ id: "pro" }],

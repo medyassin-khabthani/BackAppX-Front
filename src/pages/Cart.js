@@ -21,7 +21,7 @@ class Cart extends Component {
         
         
         
-            fetch('http://127.0.0.1:9092/user/userData', {
+            fetch('https://backappx.onrender.com/user/userData', {
               method: 'POST',
               crossDomain: true,
               headers: {
@@ -158,7 +158,7 @@ class Cart extends Component {
         });
 
         try {
-            const response = await fetch('http://localhost:9092/order/addorder', {
+            const response = await fetch('https://backappx.onrender.com/order/addorder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -20,10 +20,10 @@ class Login extends Component {
 
   }
   github(){
-   window.open("http://localhost:9092/user/github/callback", "_self");
+   window.open("https://backappx.onrender.com/user/github/callback", "_self");
   };
   gitlab(){
-    window.open("http://localhost:9092/user/gitlab/callback", "_self");
+    window.open("https://backappx.onrender.com/user/gitlab/callback", "_self");
    };
   handleSubmit(e){
     e.preventDefault();
@@ -31,7 +31,7 @@ class Login extends Component {
     console.log(email,password);
     if (this.validate()){
 
-    fetch("http://127.0.0.1:9092/user/login",{
+    fetch("https://backappx.onrender.com/user/login",{
       method:"POST",
       crossDomain:true,
       headers:{
@@ -95,7 +95,7 @@ class Login extends Component {
     e.preventDefault();
     const {email}=this.state;
     console.log(email);
-    fetch("http://127.0.0.1:9092/user/forgot-password",{
+    fetch("https://backappx.onrender.com/user/forgot-password",{
       method:"PUT",
       crossDomain:true,
       headers:{

@@ -15,7 +15,7 @@ const Storage = () => {
   const [defaultScale] = useState(1);
   useEffect(() => {
     let projectId = window.localStorage.getItem("projectId");
-    fetch(`http://127.0.0.1:9092/project/images/${projectId}`)
+    fetch(`https://backappx.onrender.com/project/images/${projectId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.status == "ok"){
@@ -33,7 +33,7 @@ const Storage = () => {
     formData.append('file', file);
     let projectId = window.localStorage.getItem("projectId");
 
-    fetch(`http://127.0.0.1:9092/project/upload/${projectId}`, {
+    fetch(`https://backappx.onrender.com/project/upload/${projectId}`, {
       method: 'PUT',
       body: formData
     })
@@ -48,14 +48,14 @@ const Storage = () => {
 
   const handleFileClick = (file) => {
     let projectId = window.localStorage.getItem("projectId");
-    setUrl(`http://localhost:9092/project/file/${projectId}/${file.name}`);
+    setUrl(`https://backappx.onrender.com/project/file/${projectId}/${file.name}`);
     setFileType(file.type);
     console.log(url, fileType)
   };
 
   const deleteFile = (id) => {
     let projectId = window.localStorage.getItem("projectId");
-    fetch(`http://127.0.0.1:9092/project/image/${projectId}/${id}`, {
+    fetch(`https://backappx.onrender.com/project/image/${projectId}/${id}`, {
       method: "DELETE",
       crossDomain: true,
       headers: {

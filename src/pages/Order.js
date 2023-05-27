@@ -23,7 +23,7 @@ class Order extends Component {
         this.setState({ isLoading: true });
         const projectId = localStorage.getItem('projectId');
 
-        fetch(`http://127.0.0.1:9092/order/getAllOrdersByProject/${projectId}`)
+        fetch(`https://backappx.onrender.com/order/getAllOrdersByProject/${projectId}`)
             .then(response => response.json())
             .then(data => {
                 this.setState({ orders: data.orders, filteredOrders: data.orders });

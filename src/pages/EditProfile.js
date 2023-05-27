@@ -30,7 +30,7 @@ class EditProfile extends Component {
   }
   componentDidMount(){
 
-    fetch("http://127.0.0.1:9092/user/userData",{
+    fetch("https://backappx.onrender.com/user/userData",{
     method:"POST",
     crossDomain:true,
     headers:{
@@ -78,7 +78,7 @@ class EditProfile extends Component {
     if(this.validate()){
 
   
-    fetch(`http://127.0.0.1:9092/user/profile/${id}`,{
+    fetch(`https://backappx.onrender.com/user/profile/${id}`,{
       method:"PUT",
       crossDomain:true,
       headers:{
@@ -117,7 +117,7 @@ class EditProfile extends Component {
   deleteAccount(){
     const { id }=this.state;
 
-    fetch(`http://127.0.0.1:9092/user/delete/${id}`,{
+    fetch(`https://backappx.onrender.com/user/delete/${id}`,{
       method:"DELETE",
       crossDomain:true,
       headers:{
@@ -157,7 +157,7 @@ class EditProfile extends Component {
     formData.append('file', image);
 
     console.log(id);
-      fetch(`http://127.0.0.1:9092/user/upload/${id}`, {
+      fetch(`https://backappx.onrender.com/user/upload/${id}`, {
         method: 'PUT',
         body: formData
       })

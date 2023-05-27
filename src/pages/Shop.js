@@ -19,7 +19,7 @@ class Shop extends Component {
 
     componentDidMount() {
         const projectId = localStorage.getItem('projectId');
-        fetch(`http://127.0.0.1:9092/product/getAllProductsByProject/${projectId}`, {
+        fetch(`https://backappx.onrender.com/product/getAllProductsByProject/${projectId}`, {
             method: "GET",
             crossDomain: true,
             headers: {

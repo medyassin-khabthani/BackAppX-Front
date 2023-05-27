@@ -44,7 +44,7 @@ class Authentification extends Component {
 
       componentDidMount(){
         let reference = window.localStorage.getItem("reference")
-        fetch(`http://127.0.0.1:9092/client/client/${reference}`)
+        fetch(`https://backappx.onrender.com/client/client/${reference}`)
         .then((res) => res.json())
         .then((data) => {
         this.setState({clients:data,clientsFiltered:data});
@@ -118,7 +118,7 @@ class Authentification extends Component {
         let email=emailEdit
         let phoneNumber=phoneNumberEdit
         let fullName = nameEdit + " " + familyNameEdit
-        fetch(`http://127.0.0.1:9092/client/client/${clientIdEdit}`,{
+        fetch(`https://backappx.onrender.com/client/client/${clientIdEdit}`,{
           method:"PUT",
           crossDomain:true,
           headers:{
@@ -253,7 +253,7 @@ class Authentification extends Component {
         const formData = new FormData();
         formData.append('image', image);
         
-          fetch(`http://127.0.0.1:9092/client/uploadPhotoClient/${id}`, {
+          fetch(`https://backappx.onrender.com/client/uploadPhotoClient/${id}`, {
             method: 'PUT',
             body: formData
           })
@@ -271,7 +271,7 @@ class Authentification extends Component {
 
         if (this.validate()){
 
-          fetch("http://127.0.0.1:9092/client/client",{
+          fetch("https://backappx.onrender.com/client/client",{
             method:"POST",
             crossDomain:true,
             headers:{
@@ -307,7 +307,7 @@ class Authentification extends Component {
 
       deleteClient(id){
     
-        fetch(`http://127.0.0.1:9092/client/client/${id}`,{
+        fetch(`https://backappx.onrender.com/client/client/${id}`,{
           method:"DELETE",
           crossDomain:true,
           headers:{

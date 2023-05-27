@@ -26,7 +26,7 @@ class Signup extends Component {
     console.log(name,email,password,phoneNumber);
 
     if ( this.validate()){
-      fetch("http://127.0.0.1:9092/user/register",{
+      fetch("https://backappx.onrender.com/user/register",{
         method:"POST",
         crossDomain:true,
         headers:{
